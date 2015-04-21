@@ -42,8 +42,6 @@ getNewSpatialID : function() {
 register: function(entity) {
     var pos = entity.getPos();
     var spatialID = entity.getSpatialID();
-    
-    // TODO: YOUR STUFF HERE!
 
     this._entities[spatialID] = entity;
 
@@ -52,15 +50,11 @@ register: function(entity) {
 unregister: function(entity) {
     var spatialID = entity.getSpatialID();
 
-    // TODO: YOUR STUFF HERE!
-
     delete this._entities[spatialID];    
 
 },
 
 findEntityInRange: function(posX, posY, radius) {
-
-    // TODO: YOUR STUFF HERE!
 
     for(var i in this._entities){
 

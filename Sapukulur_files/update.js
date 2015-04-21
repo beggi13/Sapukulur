@@ -51,7 +51,7 @@ function update(dt) {
 // Togglable Pause Mode
 //
 var KEY_PAUSE = 'P'.charCodeAt(0);
-var KEY_STEP  = 'O'.charCodeAt(0);
+var KEY_STEP  = 'O'.charCodeAt(0); // Taka út seinna?
 
 var g_isUpdatePaused = false;
 

@@ -25,7 +25,6 @@ function Player(descr) {
     
     // Set normal drawing scale, and warp state off
     this._scale = 1;
-    this._isWarping = false;
 };
 
 Player.prototype = new Entity();
@@ -56,20 +55,11 @@ Player.prototype.numSubSteps = 1;
 Player.prototype.update = function (du) {
 
     spatialManager.unregister(this);
-/*
 
-    // Perform movement substeps
-    var steps = this.numSubSteps;
-    var dStep = du / steps;
-    for (var i = 0; i < steps; ++i) {
-        this.computeSubStep(dStep);
-    }
-*/
     // Handle firing
-    this.maybeFireBullet();
+    this.maybeFireBubble();
 
-    this.updateMovement();
-
+    this.updateMovement(du);
 
     //this.isColliding() ? this.warp() : spatialManager.register(this);
 
@@ -77,32 +67,7 @@ Player.prototype.update = function (du) {
 
 };
 
-Player.prototype.computeSubStep = function (du) {
-    
-    var thrust = this.computeThrustMag();
-
-    // Apply thrust directionally, based on our rotation
-    var accelX = +Math.sin(this.rotation) * thrust;
-    var accelY = -Math.cos(this.rotation) * thrust;
-    
-    accelY += this.computeGravity();
-
-    this.applyAccel(accelX, accelY, du);
-    
-    this.wrapPosition();
-    
-    if (thrust === 0 || g_allowMixedActions) {
-        this.updateMovement(du);
-    }
-};
-
-var NOMINAL_GRAVITY = 0.12;
-
-Player.prototype.computeGravity = function () {
-    return g_useGravity ? NOMINAL_GRAVITY : 0;
-};
-
-Player.prototype.maybeFireBullet = function () {
+Player.prototype.maybeFireBubble = function () {
 
     if (keys[this.KEY_FIRE]) {
     
@@ -128,33 +93,21 @@ Player.prototype.getRadius = function () {
 };
 
 Player.prototype.takeBulletHit = function () {
-    //this.warp();
+    
 };
 
 Player.prototype.reset = function () {
     this.setPos(this.reset_cx, this.reset_cy);
-    //this.rotation = this.reset_rotation;
-    
-    this.halt();
-};
-
-Player.prototype.halt = function () {
-    this.velX = 0;
-    this.velY = 0;
 };
 
 var NOMINAL_ROTATE_RATE = 0.1;
 
 Player.prototype.updateMovement = function (du) {
     if (keys[this.KEY_LEFT] && this.cx > 25) {
-        //this.rotation -= NOMINAL_ROTATE_RATE * du;
-
-        this.cx -= 5;
+        this.cx -= 5 * du;
     }
     if (keys[this.KEY_RIGHT] && this.cx < g_canvas.width-25) {
-        //this.rotation += NOMINAL_ROTATE_RATE * du;
-
-        this.cx += 5;
+        this.cx += 5 * du;
     }
 };
 
