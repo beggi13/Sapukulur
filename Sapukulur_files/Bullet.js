@@ -45,7 +45,7 @@ Bullet.prototype.velX = 1;
 Bullet.prototype.velY = 1;
 
 // Convert times from milliseconds to "nominal" time units.
-Bullet.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
+//Bullet.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
 
 Bullet.prototype.update = function (du) {
 
@@ -58,17 +58,18 @@ Bullet.prototype.update = function (du) {
     }
 
 
-    this.lifeSpan -= du;
-    if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
+    //this.lifeSpan -= du;
+    //if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
 
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-    this.rotation += 1 * du;
-    this.rotation = util.wrapRange(this.rotation,
-                                   0, consts.FULL_CIRCLE);
+    //this.rotation += 1 * du;
+    //this.rotation = util.wrapRange(this.rotation,
+    //                               0, consts.FULL_CIRCLE);
 
-    this.wrapPosition();
+    //this.wrapPosition();
+    if (this.cx > g_canvas.height + this.getRadius()) return entityManager.KILL_ME_NOW;
     
     // Handle collisions
     //
@@ -97,7 +98,7 @@ Bullet.prototype.takeBulletHit = function () {
 
 Bullet.prototype.render = function (ctx) {
 
-    var fadeThresh = Bullet.prototype.lifeSpan / 3;
+    //var fadeThresh = Bullet.prototype.lifeSpan / 3;
 
 /*    if (this.lifeSpan < fadeThresh) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
@@ -106,7 +107,7 @@ Bullet.prototype.render = function (ctx) {
     g_sprites.bullet.drawWrappedCentredAt(
         ctx, this.cx, this.cy, this.rotation
     );*/
-    util.fillCircle(ctx, this.cx, this.cy, 10);
+    util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
 
     ctx.globalAlpha = 1;
 };
