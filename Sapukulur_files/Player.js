@@ -47,7 +47,7 @@ Player.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 // Initial, inheritable, default values
 Player.prototype.rotation = 0;
 Player.prototype.cx = g_canvas.width/2;
-Player.prototype.cy = g_canvas.length;
+Player.prototype.cy = g_canvas.height;
 Player.prototype.velX = 0;
 Player.prototype.velY = 0;
 Player.prototype.launchVel = 2;
