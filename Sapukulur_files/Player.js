@@ -118,9 +118,11 @@ var NOMINAL_ROTATE_RATE = 0.1;
 Player.prototype.updateMovement = function (du) {
     if (keys[this.KEY_LEFT] && this.cx > 25) {
         this.cx -= 5 * du;
+        this.cx = Math.max(this.cx,25);
     }
     if (keys[this.KEY_RIGHT] && this.cx < g_canvas.width-25) {
         this.cx += 5 * du;
+        this.cx = Math.min(this.cx,g_canvas.width-25);
     }
     if(this.bubble){
         var dX = +Math.sin(this.rotation);
@@ -135,7 +137,7 @@ Player.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this._scale;
-    this.sprite.drawWrappedCentredAt(
+    this.sprite.drawCentredAt(
 	   ctx, this.cx, this.cy, this.rotation
     );
     this.sprite.scale = origScale;
