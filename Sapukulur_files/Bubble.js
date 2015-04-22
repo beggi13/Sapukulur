@@ -13,7 +13,7 @@
 
 
 // A generic contructor which accepts an arbitrary descriptor object
-function Bullet(descr) {
+function Bubble(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
@@ -29,25 +29,25 @@ function Bullet(descr) {
 
 }
 
-Bullet.prototype = new Entity();
+Bubble.prototype = new Entity();
 
 // HACKED-IN AUDIO (no preloading)
-Bullet.prototype.fireSound = new Audio(
+Bubble.prototype.fireSound = new Audio(
     "sounds/bulletFire.ogg");
-Bullet.prototype.zappedSound = new Audio(
+Bubble.prototype.zappedSound = new Audio(
     "sounds/bulletZapped.ogg");
     
 // Initial, inheritable, default values
-Bullet.prototype.rotation = 0;
-Bullet.prototype.cx = 200;
-Bullet.prototype.cy = 200;
-Bullet.prototype.velX = 1;
-Bullet.prototype.velY = 1;
+Bubble.prototype.rotation = 0;
+Bubble.prototype.cx = 200;
+Bubble.prototype.cy = 200;
+Bubble.prototype.velX = 1;
+Bubble.prototype.velY = 1;
 
 // Convert times from milliseconds to "nominal" time units.
-//Bullet.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
+//Bubble.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
 
-Bullet.prototype.update = function (du) {
+Bubble.prototype.update = function (du) {
 
     spatialManager.unregister(this);
 
@@ -75,7 +75,7 @@ Bullet.prototype.update = function (du) {
     //
     var hitEntity = this.findHitEntity();
     if (hitEntity) {
-        var canTakeHit = hitEntity.takeBulletHit;
+        var canTakeHit = hitEntity.takeBubbleHit;
         if (canTakeHit) canTakeHit.call(hitEntity); 
             return entityManager.KILL_ME_NOW;
     }
@@ -85,20 +85,20 @@ Bullet.prototype.update = function (du) {
 
 };
 
-Bullet.prototype.getRadius = function () {
+Bubble.prototype.getRadius = function () {
     return 10;
 };
 
-Bullet.prototype.takeBulletHit = function () {
+Bubble.prototype.takeBubbleHit = function () {
     this.kill();
     
     // Make a noise when I am zapped by another bullet
     //this.zappedSound.play();
 };
 
-Bullet.prototype.render = function (ctx) {
+Bubble.prototype.render = function (ctx) {
 
-    //var fadeThresh = Bullet.prototype.lifeSpan / 3;
+    //var fadeThresh = Bubble.prototype.lifeSpan / 3;
 
 /*    if (this.lifeSpan < fadeThresh) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
