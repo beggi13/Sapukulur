@@ -33,7 +33,7 @@ Player.prototype = new Entity();
 Player.prototype.rememberResets = function () {
     // Remember my reset positions
     this.reset_cx = this.cx;
-    this.reset_cy = this.cy;
+    this.reset_cy = this.cy;;
     this.reset_rotation = this.rotation;
 };
 
@@ -61,6 +61,16 @@ Player.prototype.update = function (du) {
     this.maybeFireBubble();
 
     this.updateMovement(du);
+    
+    if(!this.bubble){
+        var dX = +Math.sin(this.rotation);
+        var dY = -Math.cos(this.rotation);
+        var launchDist = this.getRadius() * 1.5;
+        this.bubble = entityManager.generateBubble({
+            cx: this.cx + dX * launchDist,
+            cy: this.cy + dY * launchDist
+        });
+    }
 
     //this.isColliding() ? this.warp() : spatialManager.register(this);
 
@@ -70,7 +80,7 @@ Player.prototype.update = function (du) {
 
 Player.prototype.maybeFireBubble = function () {
 
-    if (keys[this.KEY_FIRE]) {
+    if (keys[this.KEY_FIRE] && this.bubble) {
     
         var dX = +Math.sin(this.rotation);
         var dY = -Math.cos(this.rotation);
@@ -80,11 +90,13 @@ Player.prototype.maybeFireBubble = function () {
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
 
-        entityManager.fireBubble(
-           this.cx + dX * launchDist, this.cy + dY * launchDist,
-           this.velX + relVelX, this.velY + relVelY,
-           this.rotation);
+        this.bubble.cx = this.cx + dX * launchDist;
+        this.bubble.cy = this.cy + dY * launchDist;
+        this.bubble.velX = this.velX + relVelX;
+        this.bubble.velY = this.velY + relVelY;
+        this.bubble.rotation = this.rotation;
            
+        this.bubble = undefined;
     }
     
 };

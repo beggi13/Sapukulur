@@ -82,19 +82,8 @@ init: function() {
     //this._generatePlayer();
 },
 
-fireBubble: function(cx, cy, velX, velY, rotation) {
-    if(this._freeBubbles.length >= 1){return;}
-    this._freeBubbles.push(new Bubble({
-        cx   : cx,
-        cy   : cy,
-        velX : velX,
-        velY : velY,
-
-        rotation : rotation
-    }));
-},
-
 generateBubble: function(descr){
+    if(this._freeBubbles.length >= 1){return;}
     var b = new Bubble(descr);
     this._freeBubbles.push(b);
     return b;
