@@ -88,7 +88,6 @@ Player.prototype.maybeFireBubble = function () {
 
     if (keys[this.KEY_FIRE] && this.bubble) {
         this.flag = "back";
-    
         var dX = +Math.sin(this.rotation);
         var dY = -Math.cos(this.rotation);
         var launchDist = this.getRadius() * 1.5;
@@ -150,7 +149,7 @@ Player.prototype.render = function (ctx) {
      if (this.flag == "left") this.positions = [12, 13, 14];
     // going right
     else if (this.flag == "right") this.positions = [24, 25, 26];
-    else if(this.flag == "back") this.position = [36,37,38]
+    else if(this.flag == "back") this.positions = [36,37,38];
     else this.positions = [1,1,1];
     g_sprites[this.positions[this.renderCount]].drawCentredAt(ctx, this.cx, this.cy);
     this.b += 0.8;
