@@ -116,19 +116,32 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
+        cat    : "Sapukulur_files/cats.gif",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         rock   : "https://notendur.hi.is/~pk/308G/images/rock.png"
     };
-
     imagesPreload(requiredImages, g_images, preloadDone);
 }
 
-var g_sprites = {};
+var g_sprites = [];
 
 function preloadDone() {
 
-    g_sprites.ship  = new Sprite(g_images.ship);
+    var celWidth = 32;
+    var celHeight = 32;
+    var numCols = 12;
+    var numRows = 8;
+    var numCels = 96;
+
+    var sprite;
+    for (var row = 0; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            sprite = new Sprite(g_images.cat, col * celWidth, row * celHeight, celWidth, celHeight);
+            g_sprites.push(sprite);
+        }
+    }
+
+    
     g_sprites.ship2 = new Sprite(g_images.ship2);
     g_sprites.rock  = new Sprite(g_images.rock);
 

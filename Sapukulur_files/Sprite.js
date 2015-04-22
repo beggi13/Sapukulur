@@ -14,17 +14,31 @@
 
 // Construct a "sprite" from the given `image`,
 //
-function Sprite(image) {
+function Sprite(image, sx, sy, width, height) {
     this.image = image;
-
-    this.width = image.width;
-    this.height = image.height;
+    this.sx = sx;
+    this.sy = sy;
+    this.width = width;
+    this.height = height;
     this.scale = 1;
 }
 
 Sprite.prototype.drawAt = function (ctx, x, y) {
-    ctx.drawImage(this.image, 
-                  x, y);
+    ctx.save();
+    ctx.translate(x, y);
+
+    ctx.drawImage(
+    this.image, 
+    this.sx, 
+    this.sy, 
+    this.width, 
+    this.height, 
+    0, 
+    0, 
+    this.width, 
+    this.height);
+
+    ctx.restore();
 };
 
 Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
