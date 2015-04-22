@@ -94,8 +94,22 @@ fireBubble: function(cx, cy, velX, velY, rotation) {
     }));
 },
 
+generateBubble: function(descr){
+    var b = new Bubble(descr);
+    this._freeBubbles.push(b);
+    return b;
+},
+
 generatePlayer : function(descr) {
-    this._players.push(new Player(descr));
+    var p = new Player(descr);
+    this._players.push(p);
+    var dX = +Math.sin(p.rotation);
+    var dY = -Math.cos(p.rotation);
+    var launchDist = p.getRadius() * 1.5;
+    p.bubble = entityManager.generateBubble({
+        cx: p.cx + dX * launchDist,
+        cy: p.cy + dY * launchDist
+    });
 },
 
 killNearestPlayer : function(xPos, yPos) {
@@ -135,6 +149,9 @@ update: function(du) {
                 // remove the dead guy, and shuffle the others down to
                 // prevent a confusing gap from appearing in the array
                 aCategory.splice(i,1);
+                if(aCategory == this._freeBubbles){
+                    console.log("Bubble dead")
+                }
             }
             else {
                 ++i;

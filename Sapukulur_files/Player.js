@@ -25,6 +25,7 @@ function Player(descr) {
     
     // Set normal drawing scale, and warp state off
     this._scale = 1;
+    
 };
 
 Player.prototype = new Entity();
@@ -108,6 +109,13 @@ Player.prototype.updateMovement = function (du) {
     }
     if (keys[this.KEY_RIGHT] && this.cx < g_canvas.width-25) {
         this.cx += 5 * du;
+    }
+    if(this.bubble){
+        var dX = +Math.sin(this.rotation);
+        var dY = -Math.cos(this.rotation);
+        var launchDist = this.getRadius() * 1.5;
+        this.bubble.cx = this.cx + dX * launchDist;
+        this.bubble.cy = this.cy + dY * launchDist;
     }
 };
 
