@@ -53,11 +53,12 @@ Bubble.prototype.update = function (du) {
 
     spatialManager.unregister(this);
 
-    if(this.isColliding()) this._isDeadNow = true;
+    //if(this.isColliding()) this._isDeadNow = true;
 
-    if(this._isDeadNow){
-        return entityManager.KILL_ME_NOW;
-    }
+    //if(this._isDeadNow){
+    //    console.log("isDead");
+    //    return entityManager.KILL_ME_NOW;
+    //}
 
 
     //this.lifeSpan -= du;
@@ -82,8 +83,10 @@ Bubble.prototype.update = function (du) {
     var hitEntity = this.findHitEntity();
     if (hitEntity) {
         var canTakeHit = hitEntity.takeBubbleHit;
-        if (canTakeHit) canTakeHit.call(hitEntity); 
+        if (canTakeHit){
+            canTakeHit.call(hitEntity); 
             return entityManager.KILL_ME_NOW;
+        }
     }
 
     spatialManager.register(this);

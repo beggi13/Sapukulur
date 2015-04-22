@@ -152,7 +152,7 @@ Player.prototype.render = function (ctx) {
     else if (this.flag == "right") this.positions = [24, 25, 26];
     else if(this.flag == "back") this.position = [36,37,38]
     else this.positions = [1,1,1];
-    g_sprites[this.positions[this.renderCount]].drawCentredAt(ctx, this.cx, this.cy);
+    g_sprites[this.positions[this.renderCount]].drawAt(ctx, this.cx, this.cy);
     this.b += 0.8;
     if (this.b % 1 === 0) ++this.renderCount;    
     if (this.renderCount === 3) this.renderCount = 0;
