@@ -83,7 +83,7 @@ init: function() {
 },
 
 fireBubble: function(cx, cy, velX, velY, rotation) {
-    
+    if(this._freeBubbles.length >= 1){return;}
     this._freeBubbles.push(new Bubble({
         cx   : cx,
         cy   : cy,

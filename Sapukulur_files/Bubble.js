@@ -69,7 +69,11 @@ Bubble.prototype.update = function (du) {
     //                               0, consts.FULL_CIRCLE);
 
     //this.wrapPosition();
-    if (this.cx > g_canvas.height + this.getRadius()) return entityManager.KILL_ME_NOW;
+    //console.log(this.cy);
+    if (this.cy < -this.getRadius()){
+        console.log("offscreen");
+        return entityManager.KILL_ME_NOW;
+    }
     
     // Handle collisions
     //

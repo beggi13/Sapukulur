@@ -49,7 +49,7 @@ Player.prototype.cx = g_canvas.width/2;
 Player.prototype.cy = g_canvas.height;
 Player.prototype.velX = 0;
 Player.prototype.velY = 0;
-Player.prototype.launchVel = 2;
+Player.prototype.launchVel = 5;
 Player.prototype.numSubSteps = 1;
     
 Player.prototype.update = function (du) {
