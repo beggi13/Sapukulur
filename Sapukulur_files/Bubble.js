@@ -13,7 +13,7 @@
 
 
 // A generic contructor which accepts an arbitrary descriptor object
-function Bullet(descr) {
+function Bubble(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
@@ -27,27 +27,29 @@ function Bullet(descr) {
     console.dir(this);
 */
 
+    this.color = util.discreetRandRange(0, COLORS.length);
+
 }
 
-Bullet.prototype = new Entity();
+Bubble.prototype = new Entity();
 
 // HACKED-IN AUDIO (no preloading)
-Bullet.prototype.fireSound = new Audio(
+Bubble.prototype.fireSound = new Audio(
     "sounds/bulletFire.ogg");
-Bullet.prototype.zappedSound = new Audio(
+Bubble.prototype.zappedSound = new Audio(
     "sounds/bulletZapped.ogg");
     
 // Initial, inheritable, default values
-Bullet.prototype.rotation = 0;
-Bullet.prototype.cx = 200;
-Bullet.prototype.cy = 200;
-Bullet.prototype.velX = 1;
-Bullet.prototype.velY = 1;
+Bubble.prototype.rotation = 0;
+Bubble.prototype.cx = 200;
+Bubble.prototype.cy = 200;
+Bubble.prototype.velX = 1;
+Bubble.prototype.velY = 1;
 
 // Convert times from milliseconds to "nominal" time units.
-Bullet.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
+//Bubble.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
 
-Bullet.prototype.update = function (du) {
+Bubble.prototype.update = function (du) {
 
     spatialManager.unregister(this);
 
@@ -58,23 +60,28 @@ Bullet.prototype.update = function (du) {
     }
 
 
-    this.lifeSpan -= du;
-    if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
+    //this.lifeSpan -= du;
+    //if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
 
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-    this.rotation += 1 * du;
-    this.rotation = util.wrapRange(this.rotation,
-                                   0, consts.FULL_CIRCLE);
+    //this.rotation += 1 * du;
+    //this.rotation = util.wrapRange(this.rotation,
+    //                               0, consts.FULL_CIRCLE);
 
-    this.wrapPosition();
+    //this.wrapPosition();
+    //console.log(this.cy);
+    if (this.cy < -this.getRadius()){
+        //console.log("offscreen");
+        return entityManager.KILL_ME_NOW;
+    }
     
     // Handle collisions
     //
     var hitEntity = this.findHitEntity();
     if (hitEntity) {
-        var canTakeHit = hitEntity.takeBulletHit;
+        var canTakeHit = hitEntity.takeBubbleHit;
         if (canTakeHit) canTakeHit.call(hitEntity); 
             return entityManager.KILL_ME_NOW;
     }
@@ -84,20 +91,22 @@ Bullet.prototype.update = function (du) {
 
 };
 
-Bullet.prototype.getRadius = function () {
+Bubble.prototype.getRadius = function () {
     return 10;
 };
 
-Bullet.prototype.takeBulletHit = function () {
+Bubble.prototype.takeBubbleHit = function () {
     this.kill();
     
     // Make a noise when I am zapped by another bullet
     //this.zappedSound.play();
 };
 
-Bullet.prototype.render = function (ctx) {
+Bubble.prototype.render = function (ctx) {
+    var oldStyle = ctx.fillStyle;
+    ctx.fillStyle = COLORS[this.color];
 
-    var fadeThresh = Bullet.prototype.lifeSpan / 3;
+    //var fadeThresh = Bubble.prototype.lifeSpan / 3;
 
 /*    if (this.lifeSpan < fadeThresh) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
@@ -106,7 +115,8 @@ Bullet.prototype.render = function (ctx) {
     g_sprites.bullet.drawWrappedCentredAt(
         ctx, this.cx, this.cy, this.rotation
     );*/
-    util.fillCircle(ctx, this.cx, this.cy, 10);
+    util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
 
     ctx.globalAlpha = 1;
+    ctx.fillStyle = oldStyle;
 };

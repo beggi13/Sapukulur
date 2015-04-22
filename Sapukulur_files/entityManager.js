@@ -27,7 +27,7 @@ var entityManager = {
 
 // "PRIVATE" DATA
 
-_bullets : [],
+_freeBubbles : [],
 _players   : [],
 
 // "PRIVATE" METHODS
@@ -75,15 +75,16 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [ this._bullets, this._players];
+    this._categories = [ this._freeBubbles, this._players];
 },
 
 init: function() {
     //this._generatePlayer();
 },
 
-fireBullet: function(cx, cy, velX, velY, rotation) {
-    this._bullets.push(new Bullet({
+fireBubble: function(cx, cy, velX, velY, rotation) {
+    if(this._freeBubbles.length >= 1){return;}
+    this._freeBubbles.push(new Bubble({
         cx   : cx,
         cy   : cy,
         velX : velX,

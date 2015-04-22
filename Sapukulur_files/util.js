@@ -45,6 +45,9 @@ randRange: function(min, max) {
     return (min + Math.random() * (max - min));
 },
 
+discreetRandRange: function(min, max){
+    return Math.floor(this.randRange(min,max));
+},
 
 // MISC
 // ====
