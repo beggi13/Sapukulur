@@ -27,6 +27,8 @@ function Bubble(descr) {
     console.dir(this);
 */
 
+    this.color = util.discreetRandRange(0, COLORS.length);
+
 }
 
 Bubble.prototype = new Entity();
@@ -71,7 +73,7 @@ Bubble.prototype.update = function (du) {
     //this.wrapPosition();
     //console.log(this.cy);
     if (this.cy < -this.getRadius()){
-        console.log("offscreen");
+        //console.log("offscreen");
         return entityManager.KILL_ME_NOW;
     }
     
@@ -101,6 +103,8 @@ Bubble.prototype.takeBubbleHit = function () {
 };
 
 Bubble.prototype.render = function (ctx) {
+    var oldStyle = ctx.fillStyle;
+    ctx.fillStyle = COLORS[this.color];
 
     //var fadeThresh = Bubble.prototype.lifeSpan / 3;
 
@@ -114,4 +118,5 @@ Bubble.prototype.render = function (ctx) {
     util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
 
     ctx.globalAlpha = 1;
+    ctx.fillStyle = oldStyle;
 };
