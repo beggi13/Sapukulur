@@ -43,8 +43,8 @@ Bubble.prototype.zappedSound = new Audio(
 Bubble.prototype.rotation = 0;
 Bubble.prototype.cx = 200;
 Bubble.prototype.cy = 200;
-Bubble.prototype.velX = 1;
-Bubble.prototype.velY = 1;
+Bubble.prototype.velX = 0;
+Bubble.prototype.velY = 0;
 
 // Convert times from milliseconds to "nominal" time units.
 //Bubble.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
