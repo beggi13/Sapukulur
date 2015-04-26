@@ -84,9 +84,9 @@ init: function() {
 },
 
 generatePowerUp: function(descr){
-    var b = new PowerUp(descr);
-    this._powerUps.push(b);
-    return b;
+    var pu = new PowerUp(descr);
+    this._powerUps.push(pu);
+    return pu;
 },
 
 generateBubble: function(descr){
