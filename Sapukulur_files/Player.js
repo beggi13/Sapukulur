@@ -43,7 +43,7 @@ Player.prototype.rememberResets = function () {
 Player.prototype.KEY_LEFT   = 'A'.charCodeAt(0);
 Player.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
 
-Player.prototype.KEY_FIRE   = ' '.charCodeAt(0);
+Player.prototype.KEY_FIRE   = 'W'.charCodeAt(0);
 
 // Initial, inheritable, default values
 Player.prototype.rotation = 0;
@@ -112,8 +112,9 @@ Player.prototype.getRadius = function () {
     return (32/2) * 0.9;
 };
 
-Player.prototype.takeBulletHit = function () {
-    
+Player.prototype.takePowerUpHit = function () {
+    console.log("powerUp hit");
+    // change something when hit???
 };
 
 Player.prototype.reset = function () {

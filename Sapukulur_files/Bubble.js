@@ -74,6 +74,13 @@ Bubble.prototype.update = function (du) {
     //this.wrapPosition();
     //console.log(this.cy);
     if (this.cy < -this.getRadius()){
+
+        entityManager.generatePowerUp({
+            cx: this.cx,
+            cy: this.cy,
+            
+        });
+
         //console.log("offscreen");
         return entityManager.KILL_ME_NOW;
     }

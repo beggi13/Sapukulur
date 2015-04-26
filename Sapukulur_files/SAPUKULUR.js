@@ -140,7 +140,6 @@ function preloadDone() {
             g_sprites.push(sprite);
         }
     }
-
     
     g_sprites.ship2 = new Sprite(g_images.ship2);
     g_sprites.rock  = new Sprite(g_images.rock);
@@ -156,3 +155,9 @@ function preloadDone() {
 
 // Kick it off
 requestPreloads();
+
+
+
+
+
+
