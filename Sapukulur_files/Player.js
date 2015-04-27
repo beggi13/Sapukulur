@@ -56,12 +56,16 @@ Player.prototype.launchVel = 5;
 Player.prototype.numSubSteps = 1;
 Player.prototype.b = 0;
 Player.prototype.renderCount = 0;
-Player.prototype.positions = [1,2,3]; 
-Player.prototype.flag = "";
+Player.prototype.positions = [1,1,1]; 
+Player.prototype.flag = "stop";
     
 Player.prototype.update = function (du) {
 
     spatialManager.unregister(this);
+
+
+    this.flag = "stop";
+    this.positions = [1,1,1];
 
     // Handle firing
     this.maybeFireBubble();
@@ -88,6 +92,7 @@ Player.prototype.maybeFireBubble = function () {
 
     if (keys[this.KEY_FIRE] && this.bubble) {
         this.flag = "back";
+        this.positions = [37,37,37];
         var dX = +Math.sin(this.rotation);
         var dY = -Math.cos(this.rotation);
         var launchDist = this.getRadius() * 1.5;
@@ -123,15 +128,21 @@ Player.prototype.reset = function () {
 var NOMINAL_ROTATE_RATE = 0.1;
 
 Player.prototype.updateMovement = function (du) {
+    /*if(keys[this.KEY_RIGHT]==false && keys[this.KEY_LEFT]==false && keys[this.KEY_FIRE]==false){
+        this.flag = "stop";
+        this.positions = [1,1,1];
+    }*/
     if (keys[this.KEY_LEFT] && this.cx > 25) {
         this.cx -= 5 * du;
         this.cx = Math.max(this.cx,25);
         this.flag = "left";
+        this.positions = [12, 13, 14];
     }
     if (keys[this.KEY_RIGHT] && this.cx < g_canvas.width-25) {
         this.cx += 5 * du;
         this.cx = Math.min(this.cx,g_canvas.width-25);
         this.flag = "right";
+        this.positions = [24, 25, 26];
     }
     if(this.bubble){
         var dX = +Math.sin(this.rotation);
@@ -146,13 +157,8 @@ Player.prototype.render = function (ctx) {
     //var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
     //this.sprite.scale = this._scale;
-     if (this.flag == "left") this.positions = [12, 13, 14];
-    // going right
-    else if (this.flag == "right") this.positions = [24, 25, 26];
-    else if(this.flag == "back") this.positions = [36,37,38];
-    else this.positions = [1,1,1];
     g_sprites[this.positions[this.renderCount]].drawCentredAt(ctx, this.cx, this.cy);
-    this.b += 0.8;
+    this.b += 0.5;
     if (this.b % 1 === 0) ++this.renderCount;    
     if (this.renderCount === 3) this.renderCount = 0;
 
