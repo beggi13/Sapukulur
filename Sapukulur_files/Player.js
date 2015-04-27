@@ -90,9 +90,11 @@ Player.prototype.update = function (du) {
 
 Player.prototype.maybeFireBubble = function () {
 
-    if (keys[this.KEY_FIRE] && this.bubble) {
+    if(keys[this.KEY_FIRE] || !this.bubble){
         this.flag = "back";
         this.positions = [37,37,37];
+    }
+    if (keys[this.KEY_FIRE] && this.bubble) {
         var dX = +Math.sin(this.rotation);
         var dY = -Math.cos(this.rotation);
         var launchDist = this.getRadius() * 1.5;
