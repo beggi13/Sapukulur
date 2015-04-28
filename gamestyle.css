@@ -12,6 +12,7 @@ body{
 #myCanvas {
     border:1px solid white;
     position:relative;
-    top:50%;
-    transform: translateY(-50%);
+    height: 99vh;
+   /* top:50%;
+    /*transform: translateY(-50%);*/
 }
