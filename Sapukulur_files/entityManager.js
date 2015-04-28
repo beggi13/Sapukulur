@@ -27,6 +27,7 @@ var entityManager = {
 
 // "PRIVATE" DATA
 
+_topBubbles : [],
 _powerUps : [],
 _freeBubbles : [],
 _players   : [],
@@ -76,7 +77,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [ this._powerUps, this._freeBubbles, this._players];
+    this._categories = [this._topBubbles, this._powerUps, this._freeBubbles, this._players];
 },
 
 init: function() {
