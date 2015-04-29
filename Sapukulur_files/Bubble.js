@@ -27,7 +27,7 @@ function Bubble(descr) {
     console.dir(this);
 */
 
-    this.color = util.discreetRandRange(0, COLORS.length);
+    this.color = util.discreetRandRange(1, COLORS.length);
 
 }
 

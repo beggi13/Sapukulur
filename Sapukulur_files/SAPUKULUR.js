@@ -23,6 +23,8 @@ function createInitialShips() {
         cy : g_canvas.height - 30
     });
     
+    entityManager.generateTopBubbles({});
+    
 }
 
 // =============

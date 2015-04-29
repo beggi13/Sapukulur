@@ -135,15 +135,15 @@ Player.prototype.updateMovement = function (du) {
         this.flag = "stop";
         this.positions = [1,1,1];
     }*/
-    if (keys[this.KEY_LEFT] && this.cx > 25) {
+    if (keys[this.KEY_LEFT] && this.cx > 15) {
         this.cx -= 5 * du;
-        this.cx = Math.max(this.cx,25);
+        this.cx = Math.max(this.cx,15);
         this.flag = "left";
         this.positions = [12, 13, 14];
     }
-    if (keys[this.KEY_RIGHT] && this.cx < g_canvas.width-25) {
+    if (keys[this.KEY_RIGHT] && this.cx < g_canvas.width-15) {
         this.cx += 5 * du;
-        this.cx = Math.min(this.cx,g_canvas.width-25);
+        this.cx = Math.min(this.cx,g_canvas.width-15);
         this.flag = "right";
         this.positions = [24, 25, 26];
     }

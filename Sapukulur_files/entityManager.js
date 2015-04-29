@@ -72,6 +72,7 @@ _forEachOf: function(aCategory, fn) {
 // to request the blessed release of death!
 //
 KILL_ME_NOW : -1,
+TOP_BUBBLES_INITIAL_ROWS : 8,
 
 // Some things must be deferred until after initial construction
 // i.e. thing which need `this` to be defined.
@@ -82,6 +83,14 @@ deferredSetup : function () {
 
 init: function() {
     //this._generatePlayer();
+},
+
+generateTopBubbles: function(descr){
+    this._topBubbles[0] = new TopBubbles(descr);
+    for(var i = 0; i<this.TOP_BUBBLES_INITIAL_ROWS;i++){
+        this._topBubbles[0].generateRow();
+    }
+    return this._topBubbles[0];
 },
 
 generatePowerUp: function(descr){
