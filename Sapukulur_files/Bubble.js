@@ -102,7 +102,7 @@ Bubble.prototype.update = function (du) {
 };
 
 Bubble.prototype.getRadius = function () {
-    return 10;
+    return BUBBLE_RADIUS;
 };
 
 Bubble.prototype.takeBubbleHit = function () {

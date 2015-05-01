@@ -30,3 +30,5 @@ var COLORS = [
     "green",
     "yellow"
 ];
+
+var BUBBLE_RADIUS = 10

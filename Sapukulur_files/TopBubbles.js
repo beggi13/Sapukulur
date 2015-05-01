@@ -14,10 +14,13 @@ TopBubbles.prototype.cx = 0;
 TopBubbles.prototype.cy = 0;
 
 TopBubbles.prototype.rows = [];
-TopBubbles.prototype.columns = Math.floor(g_canvas.width/20);
+TopBubbles.prototype.columns = Math.floor(g_canvas.width/(2*BUBBLE_RADIUS));
+TopBubbles.prototype.offset = (g_canvas.width%(2*BUBBLE_RADIUS))/2 + BUBBLE_RADIUS;
 
 TopBubbles.prototype.findHitBubble = function(column, row){
-    return spatialManager.findEntityInRange(15+column*20, 10+row*20, 10);
+    return spatialManager.findEntityInRange(this.offset+column*(2*BUBBLE_RADIUS),
+                                            this.offset+row*(2*BUBBLE_RADIUS),
+                                            BUBBLE_RADIUS);
 }
 
 TopBubbles.prototype.generateRow = function(){
@@ -44,7 +47,9 @@ TopBubbles.prototype.render = function (ctx) {
             var oldStyle = ctx.fillStyle;
             
             ctx.fillStyle = COLORS[this.rows[i][j]];
-            util.fillCircle(ctx, 15+j*20, 10+i*20, 10);
+            util.fillCircle(ctx,this.offset+j*(2*BUBBLE_RADIUS),
+                                this.offset+i*(2*BUBBLE_RADIUS),
+                                BUBBLE_RADIUS);
             
             ctx.fillStyle = oldStyle;
         }
