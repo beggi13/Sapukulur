@@ -55,10 +55,10 @@ Bubble.prototype.update = function (du) {
 
     //if(this.isColliding()) this._isDeadNow = true;
 
-    //if(this._isDeadNow){
-    //    console.log("isDead");
-    //    return entityManager.KILL_ME_NOW;
-    //}
+    if(this._isDeadNow){
+        console.log("isDead");
+        return entityManager.KILL_ME_NOW;
+    }
 
 
     //this.lifeSpan -= du;

@@ -27,7 +27,6 @@ function PowerUp(descr) {
     console.dir(this);
 */
 
-    this.color = util.discreetRandRange(0, COLORS.length);
 
 }
 
