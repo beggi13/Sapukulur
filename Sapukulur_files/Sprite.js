@@ -7,7 +7,7 @@
 /* jshint browser: true, devel: true, globalstrict: true */
 
 /*
-0        1         2         3         4         5         6         7         8
+0        1         2         3         4         5         6         7         8 j
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 */
 
@@ -54,8 +54,8 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
     
     // drawImage expects "top-left" coords, so we offset our destination
     // coords accordingly, to draw our sprite centred at the origin
-    ctx.drawImage(this.image, 
-                  -w/2, -h/2);
+    ctx.drawImage(this.image, this.sx, this.sy, this.width, this.height, 
+                  -w/2, -h/2, this.width, this.height);
     
     ctx.restore();
 };  

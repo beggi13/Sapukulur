@@ -1,6 +1,6 @@
 // ======
 // ENTITY
-// ======
+// ====== 
 /*
 
 Provides a set of common functions which can be "inherited" by all other

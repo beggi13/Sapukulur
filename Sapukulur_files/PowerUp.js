@@ -1,6 +1,6 @@
-// ======
-// BULLET
-// ======
+// =======
+// POWERUP
+// =======
 
 "use strict";
 
@@ -13,7 +13,7 @@
 
 
 // A generic contructor which accepts an arbitrary descriptor object
-function Bubble(descr) {
+function PowerUp(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
@@ -27,60 +27,42 @@ function Bubble(descr) {
     console.dir(this);
 */
 
-    this.color = util.discreetRandRange(1, COLORS.length);
+    this.color = util.discreetRandRange(0, COLORS.length);
 
 }
 
-Bubble.prototype = new Entity();
+PowerUp.prototype = new Entity();
 
 // HACKED-IN AUDIO (no preloading)
-Bubble.prototype.fireSound = new Audio(
+PowerUp.prototype.fireSound = new Audio(
     "sounds/bulletFire.ogg");
-Bubble.prototype.zappedSound = new Audio(
+PowerUp.prototype.zappedSound = new Audio(
     "sounds/bulletZapped.ogg");
     
 // Initial, inheritable, default values
-Bubble.prototype.rotation = 0;
-Bubble.prototype.cx = 200;
-Bubble.prototype.cy = 200;
-Bubble.prototype.velX = 0;
-Bubble.prototype.velY = 0;
+PowerUp.prototype.rotation = 0;
+PowerUp.prototype.cx = 200;
+PowerUp.prototype.cy = 200;
+PowerUp.prototype.velX = 0;
+PowerUp.prototype.velY = 3;
 
 // Convert times from milliseconds to "nominal" time units.
-//Bubble.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
+//PowerUp.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
 
-Bubble.prototype.update = function (du) {
+PowerUp.prototype.update = function (du) {
 
     spatialManager.unregister(this);
 
-    //if(this.isColliding()) this._isDeadNow = true;
+  /*  if(this.isColliding()) this._isDeadNow = true;
 
-    //if(this._isDeadNow){
-    //    console.log("isDead");
-    //    return entityManager.KILL_ME_NOW;
-    //}
-
-
-    //this.lifeSpan -= du;
-    //if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
+    if(this._isDeadNow){
+        return entityManager.KILL_ME_NOW;
+    }*/
 
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-    //this.rotation += 1 * du;
-    //this.rotation = util.wrapRange(this.rotation,
-    //                               0, consts.FULL_CIRCLE);
-
-    //this.wrapPosition();
-    //console.log(this.cy);
-    if (this.cy < -this.getRadius()){
-
-        entityManager.generatePowerUp({
-            cx: this.cx,
-            cy: this.cy,
-            
-        });
-
+    if (this.cy > this.getRadius() + g_canvas.height){
         //console.log("offscreen");
         return entityManager.KILL_ME_NOW;
     }
@@ -89,7 +71,7 @@ Bubble.prototype.update = function (du) {
     //
     var hitEntity = this.findHitEntity();
     if (hitEntity) {
-        var canTakeHit = hitEntity.takeBubbleHit;
+        var canTakeHit = hitEntity.takePowerUpHit;
         if (canTakeHit){
             canTakeHit.call(hitEntity); 
             return entityManager.KILL_ME_NOW;
@@ -101,22 +83,15 @@ Bubble.prototype.update = function (du) {
 
 };
 
-Bubble.prototype.getRadius = function () {
-    return 10;
+PowerUp.prototype.getRadius = function () {
+    return 5;
 };
 
-Bubble.prototype.takeBubbleHit = function () {
-    this.kill();
-    
-    // Make a noise when I am zapped by another bullet
-    //this.zappedSound.play();
-};
-
-Bubble.prototype.render = function (ctx) {
+PowerUp.prototype.render = function (ctx) {
     var oldStyle = ctx.fillStyle;
-    ctx.fillStyle = COLORS[this.color];
+    ctx.fillStyle = "white";//COLORS[this.color];
 
-    //var fadeThresh = Bubble.prototype.lifeSpan / 3;
+    //var fadeThresh = PowerUp.prototype.lifeSpan / 3;
 
 /*    if (this.lifeSpan < fadeThresh) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
