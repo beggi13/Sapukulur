@@ -85,7 +85,7 @@ init: function() {
     //this._generatePlayer();
 },
 
-generateTopBubbles: function(descr){
+generateTopBubbles : function(descr) {
     this._topBubbles[0] = new TopBubbles(descr);
     for(var i = 0; i<this.TOP_BUBBLES_INITIAL_ROWS;i++){
         this._topBubbles[0].generateRow();
@@ -93,13 +93,13 @@ generateTopBubbles: function(descr){
     return this._topBubbles[0];
 },
 
-generatePowerUp: function(descr){
+generatePowerUp : function(descr) {
     var pu = new PowerUp(descr);
     this._powerUps.push(pu);
     return pu;
 },
 
-generateBubble: function(descr){
+generateBubble : function(descr) {
     if(this._freeBubbles.length >= 1){return;}
     var b = new Bubble(descr);
     this._freeBubbles.push(b);
@@ -116,6 +116,10 @@ generatePlayer : function(descr) {
         cx: p.cx + dX * launchDist,
         cy: p.cy + dY * launchDist
     });
+},
+
+shootBubble : function(xAim, yAim) {
+
 },
 
 killNearestPlayer : function(xPos, yPos) {

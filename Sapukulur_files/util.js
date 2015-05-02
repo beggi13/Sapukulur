@@ -106,7 +106,28 @@ fillBox: function (ctx, x, y, w, h, style) {
     ctx.fillStyle = oldStyle;
 },
 
+drawArrow: function (ctx, x1, y1, x2, y2, length) {
+    
+    if(length === undefined) length = 100;
 
-colors: [ 'red', 'blue', 'green', 'yellow' ],
+    var dx = x2-x1;
+    var dy = y2-y1;
+
+    var realLength = Math.sqrt(dx*dx+dy*dy);
+    var r = length / realLength;
+    console.log(r);
+
+    dx *= r;
+    dy *= r;
+
+    var oldStyle = ctx.strokeStyle;
+    ctx.strokeStyle = "yellow";
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    //ctx.lineTo(arrowX2, arrowY2);
+    ctx.lineTo(x1+dx, y1+dy);
+    ctx.stroke();
+    ctx.strokeStyle = oldStyle;
+}
 
 };

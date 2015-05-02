@@ -84,6 +84,12 @@ Bubble.prototype.update = function (du) {
         //console.log("offscreen");
         return entityManager.KILL_ME_NOW;
     }
+    if(this.cx < 0 || this.cx > g_canvas.width){
+        this.velX *= -1;
+    }
+    if(this.cy > g_canvas.height){
+        this.velY *= -1;
+    }
     
     // Handle collisions
     //
@@ -116,15 +122,6 @@ Bubble.prototype.render = function (ctx) {
     var oldStyle = ctx.fillStyle;
     ctx.fillStyle = COLORS[this.color];
 
-    //var fadeThresh = Bubble.prototype.lifeSpan / 3;
-
-/*    if (this.lifeSpan < fadeThresh) {
-        ctx.globalAlpha = this.lifeSpan / fadeThresh;
-    }
-
-    g_sprites.bullet.drawWrappedCentredAt(
-        ctx, this.cx, this.cy, this.rotation
-    );*/
     util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
 
     ctx.globalAlpha = 1;

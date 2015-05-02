@@ -12,7 +12,8 @@
 */
 
 var g_mouseX = 0,
-    g_mouseY = 0;
+    g_mouseY = 0,
+    g_mouseFire = false;
 
 function handleMouse(evt) {
     
@@ -23,9 +24,19 @@ function handleMouse(evt) {
     var button = evt.buttons === undefined ? evt.which : evt.buttons;
     if (!button) return;
     
-    //entityManager.yoinkNearestShip(g_mouseX, g_mouseY);   
+    g_mouseFire = true;
+    
+
+
+}
+
+function handleMouseUp(evt) {
+
+	g_mouseFire = false;
+
 }
 
 // Handle "down" and "move" events the same way.
 window.addEventListener("mousedown", handleMouse);
 window.addEventListener("mousemove", handleMouse);
+window.addEventListener("mouseup", handleMouseUp);

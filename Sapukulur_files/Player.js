@@ -90,24 +90,31 @@ Player.prototype.update = function (du) {
 
 Player.prototype.maybeFireBubble = function () {
 
-    if(keys[this.KEY_FIRE] || !this.bubble){
+    if(keys[this.KEY_FIRE] || !this.bubble || g_mouseFire){
         this.flag = "back";
         this.positions = [37,37,37];
     }
-    if (keys[this.KEY_FIRE] && this.bubble) {
+    if ((keys[this.KEY_FIRE] || g_mouseFire) && this.bubble) {
+        
+       /* var launchDist = this.getRadius() * 1.5;
+
         var dX = +Math.sin(this.rotation);
         var dY = -Math.cos(this.rotation);
-        var launchDist = this.getRadius() * 1.5;
-        
-        var relVel = this.launchVel;
+        */
+        var relVel = this.launchVel;/*
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
+*/
+        var deltaX = g_mouseX - this.bubble.cx;
+        var deltaY = g_mouseY - this.bubble.cy;
 
-        this.bubble.cx = this.cx + dX * launchDist;
-        this.bubble.cy = this.cy + dY * launchDist;
-        this.bubble.velX = this.velX + relVelX;
-        this.bubble.velY = this.velY + relVelY;
-        this.bubble.rotation = this.rotation;
+        var l = Math.sqrt(deltaY*deltaY+deltaX*deltaX);
+        var t = relVel / l;
+        var relVelX = t * deltaX;
+        var relVelY = t * deltaY;
+
+        this.bubble.velX = relVelX;
+        this.bubble.velY = relVelY;
            
         this.bubble = undefined;
     }
@@ -160,11 +167,12 @@ Player.prototype.render = function (ctx) {
     //var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
     //this.sprite.scale = this._scale;
-    g_sprites[this.positions[this.renderCount]].drawCentredAt(ctx, this.cx, this.cy);
+    g_sprites.cat[this.positions[this.renderCount]].drawCentredAt(ctx, this.cx, this.cy);
     this.b += 0.5;
     if (this.b % 1 === 0) ++this.renderCount;    
     if (this.renderCount === 3) this.renderCount = 0;
 
-    
-    //this.sprite.scale = origScale;
+    if(!this.bubble) return;
+    util.drawArrow(ctx, this.bubble.cx, this.bubble.cy, g_mouseX, g_mouseY);
+    //this.sprite.scale = origScale; 
 };

@@ -120,12 +120,12 @@ function requestPreloads() {
     var requiredImages = {
         cat    : "Sapukulur_files/cats.gif",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
-        rock   : "https://notendur.hi.is/~pk/308G/images/rock.png"
+        rock   : "https://notendur.hi.is/~pk/308G/images/rock.png",
     };
     imagesPreload(requiredImages, g_images, preloadDone);
 }
 
-var g_sprites = [];
+var g_sprites = {};
 
 function preloadDone() {
 
@@ -134,17 +134,19 @@ function preloadDone() {
     var numCols = 12;
     var numRows = 8;
     var numCels = 96;
+    g_sprites.cat = [];
 
     var sprite;
     for (var row = 0; row < numRows; ++row) {
         for (var col = 0; col < numCols; ++col) {
             sprite = new Sprite(g_images.cat, col * celWidth, row * celHeight, celWidth, celHeight);
-            g_sprites.push(sprite);
+            g_sprites.cat.push(sprite);
         }
     }
     
     g_sprites.ship2 = new Sprite(g_images.ship2);
-    g_sprites.rock  = new Sprite(g_images.rock);
+    g_sprites.rock  = new Sprite(g_images.rock, 0, 0, g_images.rock.width, g_images.rock.height);
+    g_sprites.rock.scale = 0.25;
 
     g_sprites.bullet = new Sprite(g_images.ship);
     g_sprites.bullet.scale = 0.25;
