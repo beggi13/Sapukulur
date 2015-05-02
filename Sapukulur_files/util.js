@@ -115,7 +115,6 @@ drawArrow: function (ctx, x1, y1, x2, y2, length) {
 
     var realLength = Math.sqrt(dx*dx+dy*dy);
     var r = length / realLength;
-    console.log(r);
 
     dx *= r;
     dy *= r;
@@ -124,7 +123,6 @@ drawArrow: function (ctx, x1, y1, x2, y2, length) {
     ctx.strokeStyle = "yellow";
     ctx.beginPath();
     ctx.moveTo(x1, y1);
-    //ctx.lineTo(arrowX2, arrowY2);
     ctx.lineTo(x1+dx, y1+dy);
     ctx.stroke();
     ctx.strokeStyle = oldStyle;

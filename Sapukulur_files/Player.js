@@ -58,6 +58,7 @@ Player.prototype.b = 0;
 Player.prototype.renderCount = 0;
 Player.prototype.positions = [1,1,1]; 
 Player.prototype.flag = "stop";
+Player.prototype.spriteMode = 0;    // can only be 0, 3, 6 or 9
     
 Player.prototype.update = function (du) {
 
@@ -125,17 +126,18 @@ Player.prototype.getRadius = function () {
     return (32/2) * 0.9;
 };
 
-Player.prototype.takePowerUpHit = function () {
+Player.prototype.takePowerUpHit = function (color) {
     console.log("powerUp hit");
-    // change something when hit???
+    if(color === 1) this.spriteMode = 0;
+    if(color === 2) this.spriteMode = 3;
+    if(color === 3) this.spriteMode = 6;
+    if(color === 4) this.spriteMode = 9;
 };
 
 Player.prototype.reset = function () {
     this.setPos(this.reset_cx, this.reset_cy);
     this.positions = this.initialPos;
 };
-
-var NOMINAL_ROTATE_RATE = 0.1;
 
 Player.prototype.updateMovement = function (du) {
     /*if(keys[this.KEY_RIGHT]==false && keys[this.KEY_LEFT]==false && keys[this.KEY_FIRE]==false){
@@ -167,7 +169,7 @@ Player.prototype.render = function (ctx) {
     //var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
     //this.sprite.scale = this._scale;
-    g_sprites.cat[this.positions[this.renderCount]].drawCentredAt(ctx, this.cx, this.cy);
+    g_sprites.cat[this.positions[this.renderCount]+this.spriteMode].drawCentredAt(ctx, this.cx, this.cy);
     this.b += 0.5;
     if (this.b % 1 === 0) ++this.renderCount;    
     if (this.renderCount === 3) this.renderCount = 0;

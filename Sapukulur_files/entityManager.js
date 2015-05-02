@@ -93,7 +93,7 @@ generateTopBubbles : function(descr) {
     return this._topBubbles[0];
 },
 
-generatePowerUp : function(descr) {
+generatePowerUp: function(descr) {
     var pu = new PowerUp(descr);
     this._powerUps.push(pu);
     return pu;
@@ -116,10 +116,6 @@ generatePlayer : function(descr) {
         cx: p.cx + dX * launchDist,
         cy: p.cy + dY * launchDist
     });
-},
-
-shootBubble : function(xAim, yAim) {
-
 },
 
 killNearestPlayer : function(xPos, yPos) {
@@ -145,6 +141,14 @@ haltPlayers: function() {
 },	
 
 update: function(du) {
+
+    if(util.randRange(0,1000) < 2){
+        entityManager.generatePowerUp({
+            cx: util.randRange(10, g_canvas.width-10),
+            cy: 0,
+            color: util.discreetRandRange(1, 4)
+        });
+    }
 
     for (var c = 0; c < this._categories.length; ++c) {
 

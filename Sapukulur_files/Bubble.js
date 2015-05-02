@@ -45,6 +45,7 @@ Bubble.prototype.cx = 200;
 Bubble.prototype.cy = 200;
 Bubble.prototype.velX = 0;
 Bubble.prototype.velY = 0;
+Bubble.prototype.isBubble = true;
 
 // Convert times from milliseconds to "nominal" time units.
 //Bubble.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
@@ -74,13 +75,6 @@ Bubble.prototype.update = function (du) {
     //this.wrapPosition();
     //console.log(this.cy);
     if (this.cy < -this.getRadius()){
-
-        entityManager.generatePowerUp({
-            cx: this.cx,
-            cy: this.cy,
-            
-        });
-
         //console.log("offscreen");
         return entityManager.KILL_ME_NOW;
     }

@@ -33,8 +33,6 @@ _entities : [],
 
 getNewSpatialID : function() {
 
-    // TODO: YOUR STUFF HERE!
-
     return ++this._nextSpatialID - 1;
 
 },

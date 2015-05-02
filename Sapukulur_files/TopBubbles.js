@@ -26,9 +26,11 @@ TopBubbles.prototype.columnCount = Math.floor(g_canvas.width/(2*BUBBLE_RADIUS));
 TopBubbles.prototype.offset = (g_canvas.width%(2*BUBBLE_RADIUS))/2 + BUBBLE_RADIUS;
 
 TopBubbles.prototype.findHitBubble = function(column, row){
-    return spatialManager.findEntityInRange(this.offset+column*(2*BUBBLE_RADIUS),
+
+    var E = spatialManager.findEntityInRange(this.offset+column*(2*BUBBLE_RADIUS),
                                             this.offset+row*(2*BUBBLE_RADIUS),
                                             BUBBLE_RADIUS);
+    if(E.isBubble) return E;
 }
 
 TopBubbles.prototype.generateRow = function(){

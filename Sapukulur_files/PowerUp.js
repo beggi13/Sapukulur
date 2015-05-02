@@ -44,6 +44,7 @@ PowerUp.prototype.cx = 200;
 PowerUp.prototype.cy = 200;
 PowerUp.prototype.velX = 0;
 PowerUp.prototype.velY = 3;
+PowerUp.prototype.color = 0;
 
 // Convert times from milliseconds to "nominal" time units.
 //PowerUp.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
@@ -72,7 +73,7 @@ PowerUp.prototype.update = function (du) {
     if (hitEntity) {
         var canTakeHit = hitEntity.takePowerUpHit;
         if (canTakeHit){
-            canTakeHit.call(hitEntity); 
+            hitEntity.takePowerUpHit(this.color);
             return entityManager.KILL_ME_NOW;
         }
     }
@@ -88,7 +89,7 @@ PowerUp.prototype.getRadius = function () {
 
 PowerUp.prototype.render = function (ctx) {
     var oldStyle = ctx.fillStyle;
-    ctx.fillStyle = "white";//COLORS[this.color];
+    ctx.fillStyle = COLORS[this.color];
 
     //var fadeThresh = PowerUp.prototype.lifeSpan / 3;
 
