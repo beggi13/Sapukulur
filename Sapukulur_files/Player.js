@@ -53,6 +53,7 @@ Player.prototype.cy = g_canvas.height;
 Player.prototype.velX = 0;
 Player.prototype.velY = 0;
 Player.prototype.launchVel = 5;
+Player.prototype.launchAngle = 0;
 Player.prototype.numSubSteps = 1;
 Player.prototype.b = 0;
 Player.prototype.renderCount = 0;
@@ -68,6 +69,14 @@ Player.prototype.update = function (du) {
     this.flag = "stop";
     this.positions = [1,1,1];
 
+    // update launch angle
+    if(this.bubble){
+        var dx = g_mouseX - this.bubble.cx;
+        var dy = g_mouseY - this.bubble.cy;
+
+        this.launchAngle = Math.atan2(dy, dx) + Math.PI/2;
+    }
+
     // Handle firing
     this.maybeFireBubble();
 
@@ -78,8 +87,8 @@ Player.prototype.update = function (du) {
         var dY = -Math.cos(this.rotation);
         var launchDist = this.getRadius() * 1.5;
         this.bubble = entityManager.generateBubble({
-            cx: this.cx + dX * launchDist,
-            cy: this.cy + dY * launchDist
+            cx: this.cx,// + dX * launchDist,
+            cy: this.cy + launchDist//dY * launchDist
         });
     }
 
@@ -97,22 +106,17 @@ Player.prototype.maybeFireBubble = function () {
     }
     if ((keys[this.KEY_FIRE] || g_mouseFire) && this.bubble) {
         
-       /* var launchDist = this.getRadius() * 1.5;
+        // different shooting angles depending on mouseClick vs W key
+        var angle = g_mouseFire ? this.launchAngle : 0; 
 
-        var dX = +Math.sin(this.rotation);
-        var dY = -Math.cos(this.rotation);
-        */
-        var relVel = this.launchVel;/*
+        var launchDist = this.getRadius() * 1.5;
+
+        var dX = +Math.sin(angle);
+        var dY = -Math.cos(angle);
+        
+        var relVel = this.launchVel;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
-*/
-        var deltaX = g_mouseX - this.bubble.cx;
-        var deltaY = g_mouseY - this.bubble.cy;
-
-        var l = Math.sqrt(deltaY*deltaY+deltaX*deltaX);
-        var t = relVel / l;
-        var relVelX = t * deltaX;
-        var relVelY = t * deltaY;
 
         this.bubble.velX = relVelX;
         this.bubble.velY = relVelY;
@@ -128,7 +132,7 @@ Player.prototype.getRadius = function () {
 
 Player.prototype.takePowerUpHit = function (color) {
     console.log("powerUp hit");
-    if(color === 1) this.spriteMode = 0;
+    if(color === 1) this.spriteMode = 0; // vantar að gera meira hér!
     if(color === 2) this.spriteMode = 3;
     if(color === 3) this.spriteMode = 6;
     if(color === 4) this.spriteMode = 9;
@@ -175,6 +179,7 @@ Player.prototype.render = function (ctx) {
     if (this.renderCount === 3) this.renderCount = 0;
 
     if(!this.bubble) return;
-    util.drawArrow(ctx, this.bubble.cx, this.bubble.cy, g_mouseX, g_mouseY);
+
+    util.drawArrow(ctx, this.bubble.cx, this.bubble.cy, this.launchAngle, 100);
     //this.sprite.scale = origScale; 
 };

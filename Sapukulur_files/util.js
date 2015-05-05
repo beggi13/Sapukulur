@@ -106,26 +106,36 @@ fillBox: function (ctx, x, y, w, h, style) {
     ctx.fillStyle = oldStyle;
 },
 
-drawArrow: function (ctx, x1, y1, x2, y2, length) {
+drawArrow: function (ctx, sx, sy, angle, length) {
     
+    if(angle === undefined) angle = 0;
     if(length === undefined) length = 100;
-
-    var dx = x2-x1;
-    var dy = y2-y1;
-
-    var realLength = Math.sqrt(dx*dx+dy*dy);
-    var r = length / realLength;
-
-    dx *= r;
-    dy *= r;
-
-    var oldStyle = ctx.strokeStyle;
-    ctx.strokeStyle = "yellow";
+    
+    ctx.save();
+    var oldStyle = ctx.fillStyle;
+    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.lineWidth = 2;
+    
+    ctx.translate(sx,sy);
+    ctx.rotate(angle+Math.PI);
+    ctx.translate(-sx,-sy);
+    
     ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x1+dx, y1+dy);
-    ctx.stroke();
-    ctx.strokeStyle = oldStyle;
+    ctx.moveTo(sx-3,sy+BUBBLE_RADIUS+3);
+    
+    
+    
+    ctx.lineTo(sx+3,sy+BUBBLE_RADIUS+3);
+   // ctx.lineTo(sx+2,sy+length);
+   // ctx.lineTo(sx+8,sy+length-3);
+    ctx.lineTo(sx,sy+length+10);
+   // ctx.lineTo(sx-8,sy+length-3);
+   // ctx.lineTo(sx-2,sy+length);
+    ctx.closePath();   
+    ctx.fill();
+    
+    ctx.fillStyle = oldStyle;
+    ctx.restore();
 }
 
 };

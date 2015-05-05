@@ -46,6 +46,7 @@ Bubble.prototype.cy = 200;
 Bubble.prototype.velX = 0;
 Bubble.prototype.velY = 0;
 Bubble.prototype.isBubble = true;
+Bubble.prototype.launchVel = 5;
 
 // Convert times from milliseconds to "nominal" time units.
 //Bubble.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;

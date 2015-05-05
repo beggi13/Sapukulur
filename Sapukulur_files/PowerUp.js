@@ -63,7 +63,6 @@ PowerUp.prototype.update = function (du) {
     this.cy += this.velY * du;
 
     if (this.cy > this.getRadius() + g_canvas.height){
-        //console.log("offscreen");
         return entityManager.KILL_ME_NOW;
     }
     

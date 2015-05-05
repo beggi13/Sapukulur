@@ -78,7 +78,7 @@ TOP_BUBBLES_INITIAL_ROWS : 8,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._topBubbles, this._powerUps, this._freeBubbles, this._players];
+    this._categories = [this._topBubbles, this._powerUps, this._players, this._freeBubbles];
 },
 
 init: function() {
