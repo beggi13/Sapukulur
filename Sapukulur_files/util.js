@@ -106,14 +106,17 @@ fillBox: function (ctx, x, y, w, h, style) {
     ctx.fillStyle = oldStyle;
 },
 
-drawArrow: function (ctx, sx, sy, angle, length) {
+drawArrow: function (ctx, sx, sy, angle, length, angleWidth) {
     
     if(angle === undefined) angle = 0;
     if(length === undefined) length = 100;
-    
+    if(angleWidth === undefined || angleWidth > Math.PI/2) angleWidth = Math.PI/4;
+
+    var halfWidth = angleWidth / 2;
+
     ctx.save();
     var oldStyle = ctx.fillStyle;
-    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
     ctx.lineWidth = 2;
     
     ctx.translate(sx,sy);
@@ -121,11 +124,9 @@ drawArrow: function (ctx, sx, sy, angle, length) {
     ctx.translate(-sx,-sy);
     
     ctx.beginPath();
-    ctx.moveTo(sx-3,sy+BUBBLE_RADIUS+3);
     
+    ctx.arc(sx, sy, BUBBLE_RADIUS+3, Math.PI/2 + halfWidth, Math.PI/2 - halfWidth, true);
     
-    
-    ctx.lineTo(sx+3,sy+BUBBLE_RADIUS+3);
    // ctx.lineTo(sx+2,sy+length);
    // ctx.lineTo(sx+8,sy+length-3);
     ctx.lineTo(sx,sy+length+10);

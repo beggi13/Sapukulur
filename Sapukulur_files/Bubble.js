@@ -47,6 +47,8 @@ Bubble.prototype.velX = 0;
 Bubble.prototype.velY = 0;
 Bubble.prototype.isBubble = true;
 Bubble.prototype.launchVel = 5;
+Bubble.prototype.renderCount = 0;
+Bubble.prototype.b = 0;
 
 // Convert times from milliseconds to "nominal" time units.
 //Bubble.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
@@ -62,6 +64,12 @@ Bubble.prototype.update = function (du) {
         return entityManager.KILL_ME_NOW;
     }
 
+    // for animation
+    if(10 === this.b++) {
+        this.b = 0;
+        ++this.renderCount; 
+    }   
+    if (this.renderCount === 17) this.renderCount = 0;
 
     //this.lifeSpan -= du;
     //if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
@@ -79,7 +87,7 @@ Bubble.prototype.update = function (du) {
         //console.log("offscreen");
         return entityManager.KILL_ME_NOW;
     }
-    if(this.cx < 0 || this.cx > g_canvas.width){
+    if(this.cx - this.getRadius() < 0 || this.cx + this.getRadius() > g_canvas.width){
         this.velX *= -1;
     }
     if(this.cy > g_canvas.height){
@@ -117,7 +125,13 @@ Bubble.prototype.render = function (ctx) {
     var oldStyle = ctx.fillStyle;
     ctx.fillStyle = COLORS[this.color];
 
-    util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
+    //util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
+
+    //g_sprites.bubble.drawCentredAt(ctx, this.cx, this.cy);
+    //g_sprites.bubbles[this.color][0].drawCentredAt(ctx, this.cx, this.cy);
+    g_sprites.bubbles2[this.color-1][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
+
+    
 
     ctx.globalAlpha = 1;
     ctx.fillStyle = oldStyle;

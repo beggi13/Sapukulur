@@ -142,11 +142,12 @@ haltPlayers: function() {
 
 update: function(du) {
 
+    // Breyta seinna?
     if(util.randRange(0,1000) < 2){
         entityManager.generatePowerUp({
             cx: util.randRange(10, g_canvas.width-10),
             cy: 0,
-            color: util.discreetRandRange(1, 4)
+            color: util.discreetRandRange(1, COLORS.length)
         });
     }
 

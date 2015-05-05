@@ -46,12 +46,22 @@ PowerUp.prototype.velX = 0;
 PowerUp.prototype.velY = 3;
 PowerUp.prototype.color = 0;
 
+PowerUp.prototype.b = 0;
+PowerUp.prototype.renderCount = 0;
+
 // Convert times from milliseconds to "nominal" time units.
 //PowerUp.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
 
 PowerUp.prototype.update = function (du) {
 
     spatialManager.unregister(this);
+
+    // for animation
+    if(10 === this.b++) {
+        this.b = 0;
+        ++this.renderCount; 
+    }   
+    if (this.renderCount === 8) this.renderCount = 0;
 
   /*  if(this.isColliding()) this._isDeadNow = true;
 
@@ -99,8 +109,11 @@ PowerUp.prototype.render = function (ctx) {
     g_sprites.bullet.drawWrappedCentredAt(
         ctx, this.cx, this.cy, this.rotation
     );*/
-    util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
+   
+   // util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
 
-    ctx.globalAlpha = 1;
+   g_sprites.powerUp[this.color][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
+   //g_sprites.bubble.drawCentredAt(ctx, this.cx, this.cy);
+
     ctx.fillStyle = oldStyle;
 };

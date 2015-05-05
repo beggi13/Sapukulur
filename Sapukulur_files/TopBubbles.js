@@ -21,6 +21,9 @@ TopBubbles.prototype = new Entity();
 TopBubbles.prototype.cx = 0;
 TopBubbles.prototype.cy = 0;
 
+TopBubbles.prototype.b = 0;
+TopBubbles.prototype.renderCount = 0;
+
 TopBubbles.prototype.columns = [];
 TopBubbles.prototype.columnCount = Math.floor(g_canvas.width/(2*BUBBLE_RADIUS));
 TopBubbles.prototype.offset = (g_canvas.width%(2*BUBBLE_RADIUS))/2 + BUBBLE_RADIUS;
@@ -96,6 +99,14 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
 TopBubbles.prototype.update = function (du) {
     spatialManager.unregister(this);
 
+    // for animation
+    if(10 === this.b++) {
+        this.b = 0;
+        ++this.renderCount; 
+    }   
+    if (this.renderCount === 17) this.renderCount = 0;
+
+
     this.colsToClean = [];
     this.bubsToElim = [];
     
@@ -128,15 +139,29 @@ TopBubbles.prototype.getRadius = function () {
 
 TopBubbles.prototype.render = function (ctx) {
     for(var i = 0; i < this.columnCount; i++){
-        for(var j = 0;j < this.columns[i].length; j++){
-            var oldStyle = ctx.fillStyle;
+        for(var j = 0;j < this.columns[i].length; j++){  
             
+            if(this.columns[i][j] === 0) continue;
+           /* 
+            var oldStyle = ctx.fillStyle;
             ctx.fillStyle = COLORS[this.columns[i][j]];
             util.fillCircle(ctx,this.offset+i*(2*BUBBLE_RADIUS),
                                 this.offset+j*(2*BUBBLE_RADIUS),
                                 BUBBLE_RADIUS);
             
             ctx.fillStyle = oldStyle;
+
+            g_sprites.bubbles[this.columns[i][j]][0].drawCentredAt(
+                ctx,
+                this.offset+i*(2*BUBBLE_RADIUS),
+                this.offset+j*(2*BUBBLE_RADIUS)
+            );*/
+
+            g_sprites.bubbles2[this.columns[i][j]-1][this.renderCount].drawCentredAt(
+                ctx,
+                this.offset+i*(2*BUBBLE_RADIUS),
+                this.offset+j*(2*BUBBLE_RADIUS)
+            );
         }
     }
 };
