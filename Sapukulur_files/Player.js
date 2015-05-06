@@ -69,6 +69,14 @@ Player.prototype.update = function (du) {
     this.flag = "stop";
     this.positions = [1,1,1];
 
+    // for animation
+    if(2 === this.b++) {
+        this.b = 0;
+        ++this.renderCount; 
+    }   
+    if (this.renderCount === 3) this.renderCount = 0;
+
+
     // update launch angle
     if(this.bubble){
         var dx = g_mouseX - this.bubble.cx;
@@ -131,7 +139,7 @@ Player.prototype.getRadius = function () {
 };
 
 Player.prototype.takePowerUpHit = function (color) {
-    console.log("powerUp hit");
+    //console.log("powerUp hit");
     if(color === 1) this.spriteMode = 0; // vantar að gera meira hér!
     if(color === 2) this.spriteMode = 3;
     if(color === 3) this.spriteMode = 6;
@@ -174,9 +182,9 @@ Player.prototype.render = function (ctx) {
     // pass my scale into the sprite, for drawing
     //this.sprite.scale = this._scale;
     g_sprites.cat[this.positions[this.renderCount]+this.spriteMode].drawCentredAt(ctx, this.cx, this.cy);
-    this.b += 0.5;
+   /* this.b += 0.5;
     if (this.b % 1 === 0) ++this.renderCount;    
-    if (this.renderCount === 3) this.renderCount = 0;
+    if (this.renderCount === 3) this.renderCount = 0;*/
 
     if(!this.bubble) return;
 

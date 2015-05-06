@@ -131,6 +131,8 @@ Bubble.prototype.render = function (ctx) {
     //g_sprites.bubbles[this.color][0].drawCentredAt(ctx, this.cx, this.cy);
     g_sprites.bubbles2[this.color-1][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
 
+    //g_sprites.CAT[0][0].drawCentredAt(ctx.this.cx, this.cy);
+
     
 
     ctx.globalAlpha = 1;
