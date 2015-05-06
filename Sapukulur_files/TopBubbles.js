@@ -90,6 +90,13 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
         if(eliminate){
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] = 0;
             this.colsToClean[this.bubsToElim[i][0]] = true;
+            if(util.randRange(0,100)<80){
+                entityManager.generatePowerUp({
+                    cx: bubble.cx,
+                    cy: bubble.cy,
+                    color: util.discreetRandRange(1, COLORS.length)
+                });
+            }
         } else {
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] *= -1;
         }
