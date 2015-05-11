@@ -60,6 +60,7 @@ Player.prototype.renderCount = 0;
 Player.prototype.positions = [1,1,1]; 
 Player.prototype.flag = "stop";
 Player.prototype.spriteMode = 0;    // can only be 0, 3, 6 or 9
+Player.prototype.score = 0;
     
 Player.prototype.update = function (du) {
 
@@ -190,4 +191,5 @@ Player.prototype.render = function (ctx) {
 
     util.drawArrow(ctx, this.bubble.cx, this.bubble.cy, this.launchAngle, 100);
     //this.sprite.scale = origScale; 
+    document.getElementById('output').innerHTML = "Score: " + this.score;
 };

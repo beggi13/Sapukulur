@@ -54,6 +54,7 @@ TopBubbles.prototype.cleanColumn = function(col){
     console.log(this.columns[col]);
 }
 
+
 TopBubbles.prototype.findBubblesToEliminate= function(color,i,j){
     this.columns[i][j] = -this.columns[i][j];
     this.bubsToElim.push([i,j]);
@@ -85,11 +86,16 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     this.columns[column][row] = bubble.color;
     bubble.kill();
     this.findBubblesToEliminate(bubble.color,column,row);
+    //get the player
+    var player = entityManager._players[0];
+    console.log(player);
     var eliminate = this.bubsToElim.length >= 3;
     for(var i = 0; i < this.bubsToElim.length; i++){
         if(eliminate){
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] = 0;
             this.colsToClean[this.bubsToElim[i][0]] = true;
+            //the score for the player increase
+            player.score = player.score+1;
             if(util.randRange(0,100)<80){
                 entityManager.generatePowerUp({
                     cx: bubble.cx,
@@ -101,6 +107,7 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] *= -1;
         }
     }
+    document.getElementById('output').innerHTML = "Score: " + player.score;
 }
     
 TopBubbles.prototype.update = function (du) {
@@ -120,11 +127,13 @@ TopBubbles.prototype.update = function (du) {
     for(var i = 0; i < this.columnCount; i++){
         for(var j = 0;j <= this.columns[i].length; j++){
             var c = this.columns[i][j];
+            //console.log(c);
             if(!c){
                 var bub = this.findHitBubble(i,j);
                 if(bub && bub.color){
                     this.absorbBubble(bub,i,j);
                     var that = this;
+
                     var cleanFunc = function(value, index, array){
                         that.cleanColumn(index);
                     }
@@ -135,7 +144,6 @@ TopBubbles.prototype.update = function (du) {
             }
         }
     }
-    
     
     spatialManager.register(this);
 };
