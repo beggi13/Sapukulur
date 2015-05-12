@@ -165,7 +165,7 @@ update: function(du) {
                 // prevent a confusing gap from appearing in the array
                 aCategory.splice(i,1);
                 if(aCategory == this._freeBubbles){
-                    console.log("Bubble dead")
+                    //console.log("Bubble dead")
                 }
             }
             else {

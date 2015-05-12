@@ -51,7 +51,7 @@ TopBubbles.prototype.cleanColumn = function(col){
     if(count){
         this.columns[col].splice(this.columns[col].length-count, count);
     }
-    console.log(this.columns[col]);
+    //console.log(this.columns[col]);
 }
 
 
@@ -88,14 +88,14 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     this.findBubblesToEliminate(bubble.color,column,row);
     //get the player
     var player = entityManager._players[0];
-    console.log(player);
+    //console.log(player);
     var eliminate = this.bubsToElim.length >= 3;
     for(var i = 0; i < this.bubsToElim.length; i++){
         if(eliminate){
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] = 0;
             this.colsToClean[this.bubsToElim[i][0]] = true;
             //the score for the player increase
-            player.score = player.score+1;
+            player.score = player.score+this.bubsToElim.length;
             if(util.randRange(0,100)<80){
                 entityManager.generatePowerUp({
                     cx: bubble.cx,
@@ -110,6 +110,13 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     document.getElementById('output').innerHTML = "Score: " + player.score;
 }
     
+TopBubbles.prototype.distance = function(bubble, i, j){
+    var a = (bubble.cx - this.offset-i*(2*BUBBLE_RADIUS));
+    var b = (bubble.cy - this.offset-j*(2*BUBBLE_RADIUS));
+    //console.log(a*a+b*b);
+    return (a*a + b*b);
+}
+
 TopBubbles.prototype.update = function (du) {
     spatialManager.unregister(this);
 
@@ -128,10 +135,26 @@ TopBubbles.prototype.update = function (du) {
         for(var j = 0;j <= this.columns[i].length; j++){
             var c = this.columns[i][j];
             //console.log(c);
-            if(!c){
+            if(c){
                 var bub = this.findHitBubble(i,j);
                 if(bub && bub.color){
-                    this.absorbBubble(bub,i,j);
+                    var bestEmptyBub;
+                    var minDist = Number.MAX_VALUE;
+                    for(var di = -1; di <= 1; di++){
+                        if(!this.columns[i+di]){
+                            continue;
+                        }
+                        for(var dj = -1; dj <=1; dj++){
+                            if(!this.columns[i+di][j+dj]){
+                                var dist = this.distance(bub, i+di, j+dj)
+                                if(dist < minDist){
+                                    minDist = dist;
+                                    bestEmptyBub = [di,dj];
+                                }
+                            }
+                        }
+                    }
+                    this.absorbBubble(bub,i + bestEmptyBub[0],j + bestEmptyBub[1]);
                     var that = this;
 
                     var cleanFunc = function(value, index, array){
