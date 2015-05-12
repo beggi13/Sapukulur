@@ -7,6 +7,7 @@ html {
 body{
     min-height:100%;
     margin:0 auto;
+    min-width:100%;
 }
 
 #canvasContainer{
@@ -30,7 +31,7 @@ body{
 
 .info {
     padding: 10px;
-    width: 25%;
+    width: 200px;
     float: left;
     color: rgb(255, 255, 255);
     font-family: "Arial", cursive, sans-serif;

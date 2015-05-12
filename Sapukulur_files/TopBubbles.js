@@ -179,7 +179,7 @@ TopBubbles.prototype.render = function (ctx) {
     for(var i = 0; i < this.columnCount; i++){
         for(var j = 0;j < this.columns[i].length; j++){  
             
-            if(this.columns[i][j] === 0) continue;
+            if(this.columns[i][j] === 0|| !g_sprites.bubbles2[this.columns[i][j]-1]) continue;
            /* 
             var oldStyle = ctx.fillStyle;
             ctx.fillStyle = COLORS[this.columns[i][j]];
