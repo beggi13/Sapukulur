@@ -141,7 +141,7 @@ TopBubbles.prototype.update = function (du) {
             if(c){
                 var bub = this.findHitBubble(i,j);
                 if(bub && bub.color){
-                    var bestEmptyBub;
+                    var bestEmptyBub = [0,0];// Bad, stupid default to avoid crashes
                     var minDist = Number.MAX_VALUE;
                     for(var di = -1; di <= 1; di++){
                         if(!this.columns[i+di]){
