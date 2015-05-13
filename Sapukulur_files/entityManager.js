@@ -73,6 +73,9 @@ _forEachOf: function(aCategory, fn) {
 //
 KILL_ME_NOW : -1,
 TOP_BUBBLES_INITIAL_ROWS : 8,
+NEW_ROW_TIME : 30,
+
+newRowsSoFar : 0,
 
 // Some things must be deferred until after initial construction
 // i.e. thing which need `this` to be defined.
@@ -172,6 +175,13 @@ update: function(du) {
                 ++i;
             }
         }
+    }
+    
+    document.getElementById('timer').innerHTML = "Time to next row: " + (this.NEW_ROW_TIME*(this.newRowsSoFar+1)-main.getTime()).toFixed(0);
+    
+    if(this.NEW_ROW_TIME*(this.newRowsSoFar+1)-main.getTime()<0){
+        this.newRowsSoFar = this.newRowsSoFar + 1;
+        this._topBubbles[0].generateRow();
     }
 
 },

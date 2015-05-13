@@ -205,7 +205,7 @@ Player.prototype.render = function (ctx) {
     if (this.b % 1 === 0) ++this.renderCount;    
     if (this.renderCount === 3) this.renderCount = 0;*/
     document.getElementById('score').innerHTML = "Score: " + this.score;
-    document.getElementById('permultiplier').innerHTML = "Permanent Multiplier: " + this.permult;
+    document.getElementById('permultiplier').innerHTML = "Power-up Multiplier: " + this.permult;
     document.getElementById('multiplier').innerHTML = "Multiplier: " + (this.multiplier*this.permult).toFixed(2);
 
     if(!this.bubble) return;

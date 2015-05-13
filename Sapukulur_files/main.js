@@ -31,6 +31,10 @@ var main = {
 
 };
 
+main.getTime = function(){
+    return this._frameTime_ms/1000;
+};
+
 // Perform one iteration of the mainloop
 main.iter = function (frameTime) {
     
