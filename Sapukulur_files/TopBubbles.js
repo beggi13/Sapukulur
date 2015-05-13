@@ -96,19 +96,19 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
             this.colsToClean[this.bubsToElim[i][0]] = true;
             //the score for the player increase
             player.score = player.score+Math.floor(this.bubsToElim.length*player.multiplier*player.permult);
-            if(util.randRange(0,100)<80){
-                entityManager.generatePowerUp({
-                    cx: bubble.cx,
-                    cy: bubble.cy,
-                    color: util.discreetRandRange(1, COLORS.length)
-                });
-            }
         } else {
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] *= -1;
         }
     }
     if(eliminate){
         player.multiplier += this.bubsToElim.length - 1;
+        if(util.randRange(0,100)<30){
+            entityManager.generatePowerUp({
+                cx: bubble.cx,
+                cy: bubble.cy,
+                color: Math.floor((util.discreetRandRange(1, COLORS.length) + util.discreetRandRange(1,COLORS.length))/2)
+            });
+        }
     }
     //document.getElementById('output').innerHTML = "Score: " + player.score;
 }
