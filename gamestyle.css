@@ -32,12 +32,13 @@ body{
 .info {
     padding: 10px;
     width: 200px;
-    float: left;
     color: rgb(255, 255, 255);
     font-family: "Arial", cursive, sans-serif;
     border: 1px solid white;
     margin-left: 10px;
     font-size: 80%;
+    position:absolute;
+    right:0;
 }
 
 #scoreOutput{
@@ -45,9 +46,9 @@ body{
     font-size: 1.5em;
     color: #FF0066;
     padding: 15px;
-    bottom: 0;
     float:left;
     width: 25%;
+    position:fixed;
 }
 .output {
     /*float: left;*/

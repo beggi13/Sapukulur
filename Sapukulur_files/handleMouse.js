@@ -17,8 +17,8 @@ var g_mouseX = 0,
 
 function handleMouse(evt) {
     
-    g_mouseX = evt.clientX - g_canvas.offsetLeft;
-    g_mouseY = evt.clientY - g_canvas.offsetTop;
+    g_mouseX = (evt.clientX - g_canvas.offsetLeft)*g_canvas.width/g_canvas.offsetWidth;
+    g_mouseY = (evt.clientY - g_canvas.offsetTop)*g_canvas.height/g_canvas.offsetHeight;
     
     // If no button is being pressed, then bail
     var button = evt.buttons === undefined ? evt.which : evt.buttons;
