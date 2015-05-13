@@ -40,7 +40,7 @@ body{
     font-size: 80%;
 }
 
-.score {
+#scoreOutput{
     font-family: "Arial", cursive, sans-serif;
     font-size: 1.5em;
     color: #FF0066;
@@ -49,8 +49,8 @@ body{
     float:left;
     width: 25%;
 }
-#output {
-    float: left;
+.output {
+    /*float: left;*/
 }
 
 @media (max-height: 700px){

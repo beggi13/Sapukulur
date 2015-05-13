@@ -95,7 +95,7 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] = 0;
             this.colsToClean[this.bubsToElim[i][0]] = true;
             //the score for the player increase
-            player.score = player.score+this.bubsToElim.length;
+            player.score = player.score+Math.floor(this.bubsToElim.length*player.multiplier*player.permult);
             if(util.randRange(0,100)<80){
                 entityManager.generatePowerUp({
                     cx: bubble.cx,
@@ -107,7 +107,10 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] *= -1;
         }
     }
-    document.getElementById('output').innerHTML = "Score: " + player.score;
+    if(eliminate){
+        player.multiplier += this.bubsToElim.length - 1;
+    }
+    //document.getElementById('output').innerHTML = "Score: " + player.score;
 }
     
 TopBubbles.prototype.distance = function(bubble, i, j){

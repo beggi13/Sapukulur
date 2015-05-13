@@ -61,6 +61,9 @@ Player.prototype.positions = [1,1,1];
 Player.prototype.flag = "stop";
 Player.prototype.spriteMode = 0;    // can only be 0, 3, 6 or 9
 Player.prototype.score = 0;
+Player.prototype.MULT_DETERIORATION = 250;
+Player.prototype.permult = 1;
+Player.prototype.multiplier = 1;
     
 Player.prototype.update = function (du) {
 
@@ -69,6 +72,8 @@ Player.prototype.update = function (du) {
 
     this.flag = "stop";
     this.positions = [1,1,1];
+    
+    this.multiplier = Math.max(1,this.multiplier - du/this.MULT_DETERIORATION);
 
     // for animation
     if(2 === this.b++) {
@@ -100,6 +105,7 @@ Player.prototype.update = function (du) {
             cy: this.cy + launchDist//dY * launchDist
         });
     }
+    
 
     //this.isColliding() ? this.warp() : spatialManager.register(this);
 
@@ -141,10 +147,22 @@ Player.prototype.getRadius = function () {
 
 Player.prototype.takePowerUpHit = function (color) {
     //console.log("powerUp hit");
-    if(color === 1) this.spriteMode = 0; // vantar að gera meira hér!
-    if(color === 2) this.spriteMode = 3;
-    if(color === 3) this.spriteMode = 6;
-    if(color === 4) this.spriteMode = 9;
+    if(color === 1){
+        this.spriteMode = 0;
+        this.permult = 1;
+    }
+    if(color === 2){
+        this.spriteMode = 3;
+        this.permult = 2;
+    }
+    if(color === 3){
+        this.spriteMode = 6;
+        this.permult = 3;
+    }
+    if(color === 4){
+        this.spriteMode = 9;
+        this.permult = 4;
+    }
 };
 
 Player.prototype.reset = function () {
@@ -186,10 +204,12 @@ Player.prototype.render = function (ctx) {
    /* this.b += 0.5;
     if (this.b % 1 === 0) ++this.renderCount;    
     if (this.renderCount === 3) this.renderCount = 0;*/
+    document.getElementById('output').innerHTML = "Score: " + this.score;
+    document.getElementById('permultiplier').innerHTML = "Permanent Multiplier: " + this.permult;
+    document.getElementById('multiplier').innerHTML = "Multiplier: " + (this.multiplier*this.permult).toFixed(2);
 
     if(!this.bubble) return;
 
     util.drawArrow(ctx, this.bubble.cx, this.bubble.cy, this.launchAngle, 100);
     //this.sprite.scale = origScale; 
-    document.getElementById('output').innerHTML = "Score: " + this.score;
 };
