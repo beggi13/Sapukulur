@@ -16,7 +16,7 @@
 // CREATE INITIAL SHIPS
 // ====================
 
-function createInitialShips() {
+function createInitialPlayer() {
 
     entityManager.generatePlayer({
         cx : g_canvas.width/2,
@@ -126,11 +126,11 @@ function requestPreloads() {
 
 var g_sprites = {};
 
+// function for cutting up a spritesheet
 function cutSpriteSheet(spriteSheet, numRows, numCols, celWidth, celHeight, rowStart, colStart, betweenCels, scale, skipRows, skipCols) {
     
     if(skipRows === undefined) skipRows = [];
     if(skipCols === undefined) skipCols = [];
-
 
     var result = [];
     for (var row = 0; row < numRows; ++row){
@@ -175,11 +175,9 @@ function preloadDone() {
     g_sprites.powerUp  = cutSpriteSheet(g_images.bubbles,  5,  8, 26, 26, 9+26*8,   5, 26, 0.7,  [], []);
 
     g_sprites.bubble = new Sprite(g_images.bubbles, 5, 9+26*9, 26, 26);
-    //g_sprites.bubble = new Sprite(g_images.bubbles, 668 + 130, 7, 64, 64);
-    //g_sprites.bubble.scale = 0.4;
 
     entityManager.init();
-    createInitialShips();
+    createInitialPlayer();
 
     main.init();
 }

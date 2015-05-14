@@ -2,7 +2,7 @@
 
 entityManager.js
 
-A module which handles arbitrary entity-management for "Asteroids"
+A module which handles arbitrary entity-management
 
 
 We create this module as a single global object, and initialise it
@@ -144,16 +144,7 @@ haltPlayers: function() {
 },	
 
 update: function(du) {
-
-    // Breyta seinna?
-    //if(util.randRange(0,1000) < 2){
-    //    entityManager.generatePowerUp({
-    //        cx: util.randRange(10, g_canvas.width-10),
-    //        cy: 0,
-    //        color: util.discreetRandRange(1, COLORS.length)
-    //    });
-    //}
-
+    
     for (var c = 0; c < this._categories.length; ++c) {
 
         var aCategory = this._categories[c];

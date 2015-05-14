@@ -1,5 +1,5 @@
 // ======
-// BULLET
+// BUBBLE
 // ======
 
 "use strict";
@@ -50,17 +50,11 @@ Bubble.prototype.launchVel = 5;
 Bubble.prototype.renderCount = 0;
 Bubble.prototype.b = 0;
 
-// Convert times from milliseconds to "nominal" time units.
-//Bubble.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
-
 Bubble.prototype.update = function (du) {
 
     spatialManager.unregister(this);
 
-    //if(this.isColliding()) this._isDeadNow = true;
-
     if(this._isDeadNow){
-        //console.log("isDead");
         return entityManager.KILL_ME_NOW;
     }
 
@@ -71,20 +65,10 @@ Bubble.prototype.update = function (du) {
     }   
     if (this.renderCount === 17) this.renderCount = 0;
 
-    //this.lifeSpan -= du;
-    //if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
-
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-    //this.rotation += 1 * du;
-    //this.rotation = util.wrapRange(this.rotation,
-    //                               0, consts.FULL_CIRCLE);
-
-    //this.wrapPosition();
-    //console.log(this.cy);
     if (this.cy < -this.getRadius()){
-        //console.log("offscreen");
         return entityManager.KILL_ME_NOW;
     }
     if(this.cx - this.getRadius() < 0 || this.cx + this.getRadius() > g_canvas.width){
@@ -95,7 +79,6 @@ Bubble.prototype.update = function (du) {
     }
     
     // Handle collisions
-    //
     var hitEntity = this.findHitEntity();
     if (hitEntity) {
         var canTakeHit = hitEntity.takeBubbleHit;
@@ -116,8 +99,6 @@ Bubble.prototype.getRadius = function () {
 
 Bubble.prototype.takeBubbleHit = function () {
     this.kill();
-    
-    // Make a noise when I am zapped by another bullet
     //this.zappedSound.play();
 };
 
@@ -126,14 +107,7 @@ Bubble.prototype.render = function (ctx) {
     ctx.fillStyle = COLORS[this.color];
 
     //util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
-
-    //g_sprites.bubble.drawCentredAt(ctx, this.cx, this.cy);
-    //g_sprites.bubbles[this.color][0].drawCentredAt(ctx, this.cx, this.cy);
     g_sprites.bubbles2[this.color-1][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
-
-    //g_sprites.CAT[0][0].drawCentredAt(ctx.this.cx, this.cy);
-
-    
 
     ctx.globalAlpha = 1;
     ctx.fillStyle = oldStyle;

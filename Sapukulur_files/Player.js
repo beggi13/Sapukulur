@@ -1,6 +1,6 @@
-// ==========
-// SHIP STUFF
-// ==========
+// ======
+// PLAYER
+// ======
 
 "use strict";
 
@@ -38,8 +38,6 @@ Player.prototype.rememberResets = function () {
     this.reset_rotation = this.rotation;
 };
 
-//Player.prototype.KEY_THRUST = 'W'.charCodeAt(0);
-//Player.prototype.KEY_RETRO  = 'S'.charCodeAt(0);
 Player.prototype.KEY_LEFT   = 'A'.charCodeAt(0);
 Player.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
 
@@ -105,9 +103,6 @@ Player.prototype.update = function (du) {
             cy: this.cy + launchDist//dY * launchDist
         });
     }
-    
-
-    //this.isColliding() ? this.warp() : spatialManager.register(this);
 
     spatialManager.register(this);
 
@@ -121,7 +116,7 @@ Player.prototype.maybeFireBubble = function () {
     }
     if ((keys[this.KEY_FIRE] || g_mouseFire) && this.bubble) {
         
-        // different shooting angles depending on mouseClick vs W key
+        // different shooting angles depending on mouseClick vs. W key
         var angle = g_mouseFire ? this.launchAngle : 0; 
 
         var launchDist = this.getRadius() * 1.5;
@@ -197,19 +192,14 @@ Player.prototype.updateMovement = function (du) {
 };
 
 Player.prototype.render = function (ctx) {
-    //var origScale = this.sprite.scale;
-    // pass my scale into the sprite, for drawing
-    //this.sprite.scale = this._scale;
+    
     g_sprites.cat[this.positions[this.renderCount]+this.spriteMode].drawCentredAt(ctx, this.cx, this.cy);
-   /* this.b += 0.5;
-    if (this.b % 1 === 0) ++this.renderCount;    
-    if (this.renderCount === 3) this.renderCount = 0;*/
+
     document.getElementById('score').innerHTML = "Score: " + this.score;
     document.getElementById('permultiplier').innerHTML = "Power-up Multiplier: " + this.permult;
     document.getElementById('multiplier').innerHTML = "Multiplier: " + (this.multiplier*this.permult).toFixed(2);
 
     if(!this.bubble) return;
-
+    // only draw arrow when the Player has a Bubble
     util.drawArrow(ctx, this.bubble.cx, this.bubble.cy, this.launchAngle, 100);
-    //this.sprite.scale = origScale; 
 };
