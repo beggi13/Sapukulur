@@ -10,7 +10,7 @@ A and D keys move the player avatar (the cat at the bottom) from side to side, A
 
 The mouse is used to aim the Bubble shooter
 
-The left mouse button or space are used to fire a bubble upwards towards the cluster of bubbles at the top of the screen.
+The left mouse button or W are used to fire a bubble upwards towards the cluster of bubbles at the top of the screen.
 
 Once a moving bubble hits the bubbles at the top, it joins the cluster. If it is in direct contact with a set of at least two other bubbles in direct contact with each other of the same color, then all of them are eliminated and the player gains points.
 
