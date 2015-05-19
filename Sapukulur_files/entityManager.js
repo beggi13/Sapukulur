@@ -82,7 +82,7 @@ deferredSetup : function () {
 },
 
 init: function() {
-    //this._generatePlayer();
+    //??
 },
 
 generateTopBubbles : function(descr) {
@@ -139,6 +139,29 @@ resetPlayers: function() {
 haltPlayers: function() {
     this._forEachOf(this._players, Player.prototype.halt);
 },	
+
+restart: function(){
+    this.clearEverything();
+    main._isGameOver = false;
+    main.init();
+    g_isUpdatePaused = false;
+    
+    this.generatePlayer({
+        cx : g_canvas.width/2,
+        cy : g_canvas.height - 30
+    });
+    document.getElementById('gameOver').style.display = "none";
+},
+
+clearEverything : function(){
+        for (var i = 0; i < this._categories.length; ++i) {
+            var aCategory = this._categories[i];
+                while(aCategory.length > 0){
+                    aCategory.pop();
+                }
+        }
+},
+
 
 update: function(du) {
 

@@ -64,6 +64,7 @@ Player.prototype.score = 0;
 Player.prototype.MULT_DETERIORATION = 250;
 Player.prototype.permult = 1;
 Player.prototype.multiplier = 1;
+Player.prototype.isCat = true;
     
 Player.prototype.update = function (du) {
 
