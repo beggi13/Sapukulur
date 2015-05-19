@@ -53,7 +53,7 @@ Player.prototype.velY = 0;
 Player.prototype.launchVel = 5;
 Player.prototype.launchAngle = 0;
 Player.prototype.numSubSteps = 1;
-Player.prototype.b = 0;
+Player.prototype.stillFrames = 0;
 Player.prototype.renderCount = 0;
 Player.prototype.positions = [1,1,1]; 
 Player.prototype.flag = "stop";
@@ -74,8 +74,8 @@ Player.prototype.update = function (du) {
     this.multiplier = Math.max(1,this.multiplier - du/this.MULT_DETERIORATION);
 
     // for animation
-    if(2 === this.b++) {
-        this.b = 0;
+    if(2 === this.stillFrames++) {
+        this.stillFrames = 0;
         ++this.renderCount; 
     }   
     if (this.renderCount === 3) this.renderCount = 0;
@@ -145,18 +145,22 @@ Player.prototype.takePowerUpHit = function (color) {
     if(color === 1){
         this.spriteMode = 0;
         this.permult = 1;
+        this.launchVel = 10;
     }
     if(color === 2){
         this.spriteMode = 3;
         this.permult = 2;
+        this.launchVel = 10;
     }
     if(color === 3){
         this.spriteMode = 6;
         this.permult = 3;
+        this.launchVel = 10;
     }
     if(color === 4){
         this.spriteMode = 9;
         this.permult = 4;
+        this.launchVel = 10;
     }
 };
 
@@ -201,5 +205,5 @@ Player.prototype.render = function (ctx) {
 
     if(!this.bubble) return;
     // only draw arrow when the Player has a Bubble
-    util.drawArrow(ctx, this.bubble.cx, this.bubble.cy, this.launchAngle, 100);
+    util.drawArrow(ctx, this.bubble.cx, this.bubble.cy, this.launchAngle, this.launchVel*20);//100);
 };

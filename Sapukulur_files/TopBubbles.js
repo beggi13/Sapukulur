@@ -21,7 +21,7 @@ TopBubbles.prototype = new Entity();
 TopBubbles.prototype.cx = 0;
 TopBubbles.prototype.cy = 0;
 
-TopBubbles.prototype.b = 0;
+TopBubbles.prototype.stillFrames = 0;
 TopBubbles.prototype.renderCount = 0;
 
 TopBubbles.prototype.columns = [];
@@ -54,10 +54,17 @@ TopBubbles.prototype.cleanColumn = function(col){
     //console.log(this.columns[col]);
 }
 
+TopBubbles.prototype.generateDeathAnimation = function(i,j) {
+    entityManager.generateSmoke({
+        cx: this.offset+i*(2*BUBBLE_RADIUS),
+        cy: this.offset+j*(2*BUBBLE_RADIUS)
+    });
+};
 
-TopBubbles.prototype.findBubblesToEliminate= function(color,i,j){
+TopBubbles.prototype.findBubblesToEliminate = function(color,i,j){
     this.columns[i][j] = -this.columns[i][j];
     this.bubsToElim.push([i,j]);
+
     if(this.columns[i-1]
         && this.columns[i-1][j]
         && this.columns[i-1][j] > 0
@@ -80,12 +87,71 @@ TopBubbles.prototype.findBubblesToEliminate= function(color,i,j){
         && this.columns[i][j+1] == color){
         this.findBubblesToEliminate(color, i,j+1);
     }
+/*    var up      = this.columns[i][j-1];
+    var down    = this.columns[i][j+1];
+
+
+    var left    = this.columns[i-1] ? this.columns[i-1][j] : false;
+    var right   = this.columns[i+1] ? this.columns[i+1][j] : false;
+
+    var leftUp      = left && j % 2 === 0 ? false                   : this.columns[i-1][j-1];
+    var leftDown    = left && j % 2 === 0 ? this.columns[i-1][j+1]  : false;
+
+    var rightUp     = right && j % 2 === 0 ? false                  : this.columns[i+1][j-1];
+    var rightDown   = right && j % 2 === 0 ? this.columns[i+1][j+1] : false;
+
+    //// LEFT /////////////////////////////////////
+    if(    leftUp
+        && leftUp > 0
+        && leftUp === color){
+        this.findBubblesToEliminate(color, i-1, j-1);
+    }
+    if(    left
+        && left > 0
+        && left === color){
+        this.findBubblesToEliminate(color, i-1, j);
+    }
+    if(    leftDown
+        && leftDown > 0
+        && leftDown === color){
+        this.findBubblesToEliminate(color, i-1, j+1);
+    }
+    //// RIGHT ////////////////////////////////////
+    if(    rightUp
+        && rightUp > 0
+        && rightUp === color){
+        this.findBubblesToEliminate(color, i+1, j-1);
+    }
+    if(    right
+        && right > 0
+        && right === color){
+        this.findBubblesToEliminate(color, i+1, j);
+    }
+    if(    rightDown
+        && rightDown > 0
+        && rightDown === color){
+        this.findBubblesToEliminate(color, i+1, j+1);
+    }
+    //// UP ///////////////////////////////////////
+    if(    up
+        && up > 0
+        && up === color){
+        this.findBubblesToEliminate(color, i, j-1);
+    }
+    //// SOWN /////////////////////////////////////
+    if(    down
+        && down > 0
+        && down === color){
+        this.findBubblesToEliminate(color, i, j+1);
+    }*/
+    
 }
 
 TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     this.columns[column][row] = bubble.color;
     bubble.kill();
     this.findBubblesToEliminate(bubble.color,column,row);
+
     //get the player
     var player = entityManager._players[0];
     //console.log(player);
@@ -96,6 +162,9 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
             this.colsToClean[this.bubsToElim[i][0]] = true;
             //the score for the player increase
             player.score = player.score+Math.floor(this.bubsToElim.length*player.multiplier*player.permult);
+
+            console.log(this.bubsToElim);
+            this.generateDeathAnimation(this.bubsToElim[i][0], this.bubsToElim[i][1]);
         } else {
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] *= -1;
         }
@@ -124,8 +193,8 @@ TopBubbles.prototype.update = function (du) {
     spatialManager.unregister(this);
 
     // for animation
-    if(10 === this.b++) {
-        this.b = 0;
+    if(10 === this.stillFrames++) {
+        this.stillFrames = 0;
         ++this.renderCount; 
     }   
     if (this.renderCount === 17) this.renderCount = 0;
@@ -179,10 +248,16 @@ TopBubbles.prototype.getRadius = function () {
 };
 
 TopBubbles.prototype.render = function (ctx) {
+
+    
+
     for(var i = 0; i < this.columnCount; i++){
         for(var j = 0;j < this.columns[i].length; j++){  
             
-            if(this.columns[i][j] === 0|| !g_sprites.bubbles2[this.columns[i][j]-1]) continue;
+            var oddOffset = j % 2 === 0 ? 0 : BUBBLE_RADIUS;
+
+
+            if(this.columns[i][j] === 0 || !g_sprites.bubbles2[this.columns[i][j]-1]) continue;
            /* 
             var oldStyle = ctx.fillStyle;
             ctx.fillStyle = COLORS[this.columns[i][j]];
@@ -197,12 +272,23 @@ TopBubbles.prototype.render = function (ctx) {
                 this.offset+i*(2*BUBBLE_RADIUS),
                 this.offset+j*(2*BUBBLE_RADIUS)
             );*/
-
+         /*  nje  
+            var bubble = entityManager._freeBubbles ? entityManager._freeBubbles[0] : false;
+            
+            if(bubble && bubble.color !== this.columns[i][j]) { 
+                ctx.globalAlpha = 0.8;
+            }*/
+            
             g_sprites.bubbles2[this.columns[i][j]-1][this.renderCount].drawCentredAt(
                 ctx,
-                this.offset+i*(2*BUBBLE_RADIUS),
-                this.offset+j*(2*BUBBLE_RADIUS)
+                this.offset+i*(2*BUBBLE_RADIUS),// + oddOffset,
+                this.offset+j*(2*BUBBLE_RADIUS)// + oddOffset//2
             );
+
+          //  ctx.globalAlpha = 1;
+            
         }
+        
     }
+    
 };

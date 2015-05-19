@@ -137,6 +137,26 @@ drawArrow: function (ctx, sx, sy, angle, length, angleWidth) {
     
     ctx.fillStyle = oldStyle;
     ctx.restore();
+},
+
+
+// Animation
+
+preShake: function(ctx, power) { // power is the max possible movement in pixels when shaking
+    
+    if(power === undefined) power = 10;
+
+    ctx.save();
+    var dx = Math.random()*power;
+    var dy = Math.random()*power;
+
+    dx = Math.random() < 0.5 ? dx : -dx;
+    dy = Math.random() < 0.5 ? dy : -dy;
+    ctx.translate(dx, dy); 
+},
+
+postShake: function(ctx) {
+    ctx.restore();
 }
 
 };

@@ -48,7 +48,7 @@ Bubble.prototype.velY = 0;
 Bubble.prototype.isBubble = true;
 Bubble.prototype.launchVel = 5;
 Bubble.prototype.renderCount = 0;
-Bubble.prototype.b = 0;
+Bubble.prototype.stillFrames = 0;
 
 Bubble.prototype.update = function (du) {
 
@@ -59,8 +59,8 @@ Bubble.prototype.update = function (du) {
     }
 
     // for animation
-    if(10 === this.b++) {
-        this.b = 0;
+    if(10 === this.stillFrames++) {
+        this.stillFrames = 0;
         ++this.renderCount; 
     }   
     if (this.renderCount === 17) this.renderCount = 0;
@@ -108,7 +108,8 @@ Bubble.prototype.render = function (ctx) {
 
     //util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
     g_sprites.bubbles2[this.color-1][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
+    
+    //g_sprites.smoke[0][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
 
-    ctx.globalAlpha = 1;
     ctx.fillStyle = oldStyle;
 };

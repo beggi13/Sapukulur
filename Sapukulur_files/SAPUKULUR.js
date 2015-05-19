@@ -170,9 +170,13 @@ function preloadDone() {
         }
     }
     
-    g_sprites.bubbles  = cutSpriteSheet(g_images.bubbles, 13,  5, 64, 64,      7, 668, 65, 0.3,  [], []);
-    g_sprites.bubbles2 = cutSpriteSheet(g_images.bubbles,  8, 17, 26, 26,      9,   5, 26, 0.8, [1], []);
-    g_sprites.powerUp  = cutSpriteSheet(g_images.bubbles,  5,  8, 26, 26, 9+26*8,   5, 26, 0.7,  [], []);
+    g_sprites.bubbles  = cutSpriteSheet(g_images.bubbles, 13,  5, 64, 64,       7, 668, 65, 0.3,  [], []);
+    g_sprites.bubbles2 = cutSpriteSheet(g_images.bubbles,  8, 17, 26, 26,       9,   6, 26, 0.8, [1], []);
+    g_sprites.powerUp  = cutSpriteSheet(g_images.bubbles,  5,  8, 26, 26,  9+26*8,   6, 26, 0.7,  [], []);
+    g_sprites.smoke    = cutSpriteSheet(g_images.bubbles,  2,  6, 34, 34, 9+26*13,   6, 34, 0.8,  [], []);
+
+    // fix for smoke spritesheet
+    g_sprites.smoke = [ g_sprites.smoke[0].concat(g_sprites.smoke[1]) ];
 
     g_sprites.bubble = new Sprite(g_images.bubbles, 5, 9+26*9, 26, 26);
 

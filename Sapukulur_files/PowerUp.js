@@ -90,7 +90,7 @@ PowerUp.prototype.render = function (ctx) {
     var oldStyle = ctx.fillStyle;
     ctx.fillStyle = COLORS[this.color];
    
-   // util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
+    util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
 
    g_sprites.powerUp[this.color][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
 

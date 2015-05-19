@@ -27,10 +27,11 @@ var entityManager = {
 
 // "PRIVATE" DATA
 
-_topBubbles : [],
-_powerUps : [],
+_smokes      : [],
+_topBubbles  : [],
+_powerUps    : [],
 _freeBubbles : [],
-_players   : [],
+_players     : [],
 
 // "PRIVATE" METHODS
 
@@ -76,16 +77,23 @@ TOP_BUBBLES_INITIAL_ROWS : 8,
 NEW_ROW_TIME : 30,
 
 newRowsSoFar : 0,
+shakeAll : false,
 
 // Some things must be deferred until after initial construction
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._topBubbles, this._powerUps, this._players, this._freeBubbles];
+    this._categories = [this._smokes, this._topBubbles, this._powerUps, this._players, this._freeBubbles];
 },
 
 init: function() {
     //this._generatePlayer();
+},
+
+generateSmoke : function(descr) {
+    var s = new Smoke(descr);
+    this._smokes.push(s);
+    return s;
 },
 
 generateTopBubbles : function(descr) {
@@ -179,6 +187,8 @@ update: function(du) {
 
 render: function(ctx) {
 
+    if(this.shakeAll) util.preShake(ctx);
+
     var debugX = 10, debugY = 100;
 
     for (var c = 0; c < this._categories.length; ++c) {
@@ -193,6 +203,8 @@ render: function(ctx) {
         }
         debugY += 10;
     }
+
+    if(this.shakeAll) util.postShake(ctx);
 }
 
 }
