@@ -77,6 +77,18 @@ Bubble.prototype.update = function (du) {
     if(this.cy > g_canvas.height){
         this.velY *= -1;
     }
+
+
+    if( (this.velX !== 0 || this.velY !== 0) ){//&& eatKey('J'.charCodeAt(0)) ){
+        entityManager.generateParticle({
+            cx     : this.cx,
+            cy     : this.cy,
+            velX   : -this.velX/2 + util.randRange(-3,3),
+            velY   : -this.velY/2 + util.randRange(-3,3),
+            color  : this.color,
+            radius : util.randRange(1,4)
+        });
+    }
     
     // Handle collisions
     var hitEntity = this.findHitEntity();

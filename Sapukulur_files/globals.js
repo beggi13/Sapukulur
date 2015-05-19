@@ -25,10 +25,10 @@ var SECS_TO_NOMINALS = 1000 / NOMINAL_UPDATE_INTERVAL;
 // Colors
 var COLORS = [
     "black",
-    "blue",
     "red",
+    "yellow",
     "green",
-    "yellow"
+    "blue"
 ];
 
 var BUBBLE_RADIUS = 10

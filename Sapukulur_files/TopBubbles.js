@@ -163,7 +163,7 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
             //the score for the player increase
             player.score = player.score+Math.floor(this.bubsToElim.length*player.multiplier*player.permult);
 
-            console.log(this.bubsToElim);
+            //console.log(this.bubsToElim);
             this.generateDeathAnimation(this.bubsToElim[i][0], this.bubsToElim[i][1]);
         } else {
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] *= -1;

@@ -27,7 +27,7 @@ var entityManager = {
 
 // "PRIVATE" DATA
 
-_smokes      : [],
+_animations  : [],
 _topBubbles  : [],
 _powerUps    : [],
 _freeBubbles : [],
@@ -83,7 +83,7 @@ shakeAll : false,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._smokes, this._topBubbles, this._powerUps, this._players, this._freeBubbles];
+    this._categories = [this._animations, this._topBubbles, this._powerUps, this._players, this._freeBubbles];
 },
 
 init: function() {
@@ -92,8 +92,14 @@ init: function() {
 
 generateSmoke : function(descr) {
     var s = new Smoke(descr);
-    this._smokes.push(s);
+    this._animations.push(s);
     return s;
+},
+
+generateParticle : function(descr) {
+    var p = new Particle(descr);
+    this._animations.push(p);
+    return p;
 },
 
 generateTopBubbles : function(descr) {
@@ -205,6 +211,10 @@ render: function(ctx) {
     }
 
     if(this.shakeAll) util.postShake(ctx);
+
+
+    // For debugging, to see what entities are alive at some point in time
+    if(keys['L'.charCodeAt(0)]) console.log(entityManager._categories); 
 }
 
 }
