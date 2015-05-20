@@ -54,6 +54,40 @@ body{
     /*float: left;*/
 }
 
+.gameOver {
+    width:100%;
+    position: absolute;
+    top:35%;
+    margin: 30px;
+    border: 1px solid red;
+    cursor: default;
+    display: none;
+    background-image: url("kisi.jpg");
+    padding: 10px;
+}
+
+.gameOver p{
+    margin: 5%;
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 80px;
+    color: #FF0000;
+    position: relative;
+    left: 25%;
+    opacity: 0%;
+}
+
+.gameOver span {
+    font-size: 60px;
+    cursor: pointer;
+    position: relative;
+    left:6%;
+}
+
+.gameOver span:hover {
+    color: #0099FF;
+}
+
 @media (max-height: 700px){
     #canvasContainer {
         position:static;

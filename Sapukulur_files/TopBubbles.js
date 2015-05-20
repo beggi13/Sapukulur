@@ -186,7 +186,7 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
 
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] = 0;
             this.colsToClean[this.bubsToElim[i][0]] = true;
-            //the score for the player increase
+            //the score for the player increases
             player.score = player.score+Math.floor(this.bubsToElim.length*player.multiplier*player.permult);
             
         } else {
@@ -213,6 +213,13 @@ TopBubbles.prototype.distance = function(bubble, i, j){
     return (a*a + b*b);
 };
 
+TopBubbles.prototype.checkPlayerCollision = function(player, i, j){
+    var E = spatialManager.findEntityInRange(this.offset+i*(2*BUBBLE_RADIUS),
+                                            this.offset+j*(2*BUBBLE_RADIUS),
+                                            BUBBLE_RADIUS);
+    if(E.isCat) return E;
+}
+
 TopBubbles.prototype.update = function (du) {
     spatialManager.unregister(this);
 
@@ -226,12 +233,18 @@ TopBubbles.prototype.update = function (du) {
 
     this.colsToClean = [];
     this.bubsToElim = [];
+    var player = entityManager._players[0];
     
     for(var i = 0; i < this.columnCount; i++){
         for(var j = 0;j <= this.columns[i].length; j++){
             var c = this.columns[i][j];
             //console.log(c);
             if(c){
+                var cat = this.checkPlayerCollision(player,i,j);
+                    if(cat){
+                        document.getElementById('gameOver').style.display = "block";
+                        main.gameOver();
+                    }
                 var bub = this.findHitBubble(i,j);
                 if(bub && bub.color){
                     var bestEmptyBub = [0,0];// Bad, stupid default to avoid crashes
@@ -265,6 +278,7 @@ TopBubbles.prototype.update = function (du) {
     }
     
     spatialManager.register(this);
+
 };
 
 TopBubbles.prototype.getRadius = function () {
