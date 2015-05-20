@@ -26,13 +26,14 @@ haven't adopted it here.
 var main = {
     
     // "Frame Time" is a (potentially high-precision) frame-clock for animations
+    _startFrameTime : null,
     _frameTime_ms : null,
     _frameTimeDelta_ms : null,
 
 };
 
 main.getTime = function(){
-    return this._frameTime_ms/1000;
+    return (this._frameTime_ms - this._startFrameTime)/1000;
 };
 
 // Perform one iteration of the mainloop
@@ -54,7 +55,10 @@ main.iter = function (frameTime) {
 main._updateClocks = function (frameTime) {
     
     // First-time initialisation
-    if (this._frameTime_ms === null) this._frameTime_ms = frameTime;
+    if (this._frameTime_ms === null){
+        this._frameTime_ms = frameTime;
+        this._startFrameTime = frameTime;
+    }
     
     // Track frameTime and its delta
     this._frameTimeDelta_ms = frameTime - this._frameTime_ms;
@@ -78,6 +82,8 @@ main._isGameOver = false;
 
 main.gameOver = function () {
     this._isGameOver = true;
+    document.getElementById('gameOver').style.display = "block";
+    this._frameTime_ms = null;
     console.log("gameOver: quitting...");
 };
 

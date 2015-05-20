@@ -167,15 +167,18 @@ restart: function(){
         cx : g_canvas.width/2,
         cy : g_canvas.height - 30
     });
+    this.generateTopBubbles();
     document.getElementById('gameOver').style.display = "none";
 },
 
 clearEverything : function(){
+        this.newRowsSoFar = 0;
         for (var i = 0; i < this._categories.length; ++i) {
-            var aCategory = this._categories[i];
+            this._categories[i].splice(0,this._categories[i].length);
+            /*var aCategory = this._categories[i];
                 while(aCategory.length > 0){
                     aCategory.pop();
-                }
+                }*/
         }
 },
 
@@ -196,7 +199,7 @@ update: function(du) {
                 // prevent a confusing gap from appearing in the array
                 aCategory.splice(i,1);
                 if(aCategory == this._freeBubbles){
-                    //console.log("Bubble dead")
+                    console.log("Bubble dead")
                 }
             }
             else {

@@ -9,6 +9,7 @@ function TopBubbles(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
+    this.columns = [];
     
     for(var i = 0; i < this.columnCount; i++){
         this.columns.push([]);
@@ -27,7 +28,6 @@ TopBubbles.prototype.cy = 0;
 TopBubbles.prototype.stillFrames = 0;
 TopBubbles.prototype.renderCount = 0;
 
-TopBubbles.prototype.columns = [];
 TopBubbles.prototype.columnCount = Math.floor(g_canvas.width/(2*BUBBLE_RADIUS));
 TopBubbles.prototype.offset = (g_canvas.width%(2*BUBBLE_RADIUS))/2 + BUBBLE_RADIUS;
 
@@ -104,76 +104,15 @@ TopBubbles.prototype.findBubblesToEliminate = function(color,i,j){
         && this.columns[i][j+1] == color){
         this.findBubblesToEliminate(color, i,j+1);
     }
-/*    var up      = this.columns[i][j-1];
-    var down    = this.columns[i][j+1];
-
-
-    var left    = this.columns[i-1] ? this.columns[i-1][j] : false;
-    var right   = this.columns[i+1] ? this.columns[i+1][j] : false;
-
-    var leftUp      = left && j % 2 === 0 ? false                   : this.columns[i-1][j-1];
-    var leftDown    = left && j % 2 === 0 ? this.columns[i-1][j+1]  : false;
-
-    var rightUp     = right && j % 2 === 0 ? false                  : this.columns[i+1][j-1];
-    var rightDown   = right && j % 2 === 0 ? this.columns[i+1][j+1] : false;
-
-    //// LEFT /////////////////////////////////////
-    if(    leftUp
-        && leftUp > 0
-        && leftUp === color){
-        this.findBubblesToEliminate(color, i-1, j-1);
-    }
-    if(    left
-        && left > 0
-        && left === color){
-        this.findBubblesToEliminate(color, i-1, j);
-    }
-    if(    leftDown
-        && leftDown > 0
-        && leftDown === color){
-        this.findBubblesToEliminate(color, i-1, j+1);
-    }
-    //// RIGHT ////////////////////////////////////
-    if(    rightUp
-        && rightUp > 0
-        && rightUp === color){
-        this.findBubblesToEliminate(color, i+1, j-1);
-    }
-    if(    right
-        && right > 0
-        && right === color){
-        this.findBubblesToEliminate(color, i+1, j);
-    }
-    if(    rightDown
-        && rightDown > 0
-        && rightDown === color){
-        this.findBubblesToEliminate(color, i+1, j+1);
-    }
-    //// UP ///////////////////////////////////////
-    if(    up
-        && up > 0
-        && up === color){
-        this.findBubblesToEliminate(color, i, j-1);
-    }
-    //// SOWN /////////////////////////////////////
-    if(    down
-        && down > 0
-        && down === color){
-        this.findBubblesToEliminate(color, i, j+1);
-    }*/
     
 };
 
-TopBubbles.prototype.eliminateStrayBubbles = function () {
-
-};
 
 TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     this.columns[column][row] = bubble.color;
     bubble.kill();
     this.findBubblesToEliminate(bubble.color,column,row);
 
-    this.eliminateStrayBubbles();
 
     //get the player
     var player = entityManager._players[0];
@@ -213,13 +152,6 @@ TopBubbles.prototype.distance = function(bubble, i, j){
     return (a*a + b*b);
 };
 
-TopBubbles.prototype.checkPlayerCollision = function(player, i, j){
-    var E = spatialManager.findEntityInRange(this.offset+i*(2*BUBBLE_RADIUS),
-                                            this.offset+j*(2*BUBBLE_RADIUS),
-                                            BUBBLE_RADIUS);
-    if(E.isCat) return E;
-}
-
 TopBubbles.prototype.update = function (du) {
     spatialManager.unregister(this);
 
@@ -233,18 +165,12 @@ TopBubbles.prototype.update = function (du) {
 
     this.colsToClean = [];
     this.bubsToElim = [];
-    var player = entityManager._players[0];
     
     for(var i = 0; i < this.columnCount; i++){
         for(var j = 0;j <= this.columns[i].length; j++){
             var c = this.columns[i][j];
             //console.log(c);
             if(c){
-                var cat = this.checkPlayerCollision(player,i,j);
-                    if(cat){
-                        document.getElementById('gameOver').style.display = "block";
-                        main.gameOver();
-                    }
                 var bub = this.findHitBubble(i,j);
                 if(bub && bub.color){
                     var bestEmptyBub = [0,0];// Bad, stupid default to avoid crashes

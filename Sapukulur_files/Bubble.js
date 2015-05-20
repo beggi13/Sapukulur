@@ -92,14 +92,14 @@ Bubble.prototype.update = function (du) {
     }
     
     // Handle collisions
-    var hitEntity = this.findHitEntity();
+    /*var hitEntity = this.findHitEntity();
     if (hitEntity) {
         var canTakeHit = hitEntity.takeBubbleHit;
         if (canTakeHit){
             canTakeHit.call(hitEntity); 
             return entityManager.KILL_ME_NOW;
         }
-    }
+    }*/
 
     spatialManager.register(this);
 

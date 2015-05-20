@@ -64,6 +64,7 @@ body{
     display: none;
     background-image: url("kisi.jpg");
     padding: 10px;
+    z-index: 10;
 }
 
 .gameOver p{
