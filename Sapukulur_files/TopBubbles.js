@@ -31,6 +31,16 @@ TopBubbles.prototype.renderCount = 0;
 TopBubbles.prototype.columnCount = Math.floor(g_canvas.width/(2*BUBBLE_RADIUS));
 TopBubbles.prototype.offset = (g_canvas.width%(2*BUBBLE_RADIUS))/2 + BUBBLE_RADIUS;
 
+TopBubbles.prototype.maxColumnLength = function(){
+    var maxLen = 0;
+    for(var i = 0; i< this.columns.length; i++){
+        if(maxLen < this.columns[i].length){
+            maxLen = this.columns[i].length;
+        }
+    }
+    return maxLen;
+}
+
 TopBubbles.prototype.findHitBubble = function(column, row){
 
     var E = spatialManager.findEntityInRange(this.offset+column*(2*BUBBLE_RADIUS),
@@ -203,7 +213,13 @@ TopBubbles.prototype.update = function (du) {
         }
     }
     
+    
+    
     spatialManager.register(this);
+    
+    if(!util.isBetween(this.maxColumnLength(), 1, 20)){
+        main.gameOver();
+    }
 
 };
 
