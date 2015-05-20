@@ -24,6 +24,10 @@ function Smoke(descr) {
     this._bulletProperty = true;
     console.dir(this);
 */
+    // Default sprite, if not otherwise specified
+    this.sprite = this.sprite || g_sprites.smoke;
+
+    this._scale = util.randRange(0.5,1.3);
 
 
 }
@@ -67,8 +71,8 @@ Smoke.prototype.render = function (ctx) {
     ctx.fillStyle = COLORS[this.color];
 
     //util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
-    
-    g_sprites.smoke[0][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
+    this.sprite[0][this.renderCount].scale = this._scale;
+    this.sprite[0][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
 
     ctx.fillStyle = oldStyle;
 };

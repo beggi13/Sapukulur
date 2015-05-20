@@ -26,8 +26,11 @@ function Particle(descr) {
     this._bulletProperty = true;
     console.dir(this);
 */
+    this.velX   = this.velX   || util.randRange(-3,3);
+    this.velY   = this.velY   || util.randRange(-3,3);
+    this.radius = this.radius || util.randRange(1,4);
 
-    //this.color = util.discreetRandRange(1, COLORS.length);
+    this.color  = this.color  || util.discreetRandRange(1, COLORS.length);
 
 }
 
@@ -35,12 +38,12 @@ Particle.prototype = new Entity();
     
 // Initial, inheritable, default values
 Particle.prototype.rotation = 0;
-Particle.prototype.radius = 3;
+Particle.prototype.radius = 0;
 Particle.prototype.cx = 200;
 Particle.prototype.cy = 200;
 Particle.prototype.velX = 0;
 Particle.prototype.velY = 0;
-Particle.prototype.lifeSpan = 500 / NOMINAL_UPDATE_INTERVAL;
+Particle.prototype.lifeSpan = 1000 / NOMINAL_UPDATE_INTERVAL;
 
 Particle.prototype.isParticle = true;
 Particle.prototype.color = 0;

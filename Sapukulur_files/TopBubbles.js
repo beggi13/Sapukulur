@@ -14,6 +14,9 @@ function TopBubbles(descr) {
         this.columns.push([]);
     }
 
+    // Default sprite, if not otherwise specified
+    this.sprite = this.sprite || g_sprites.bubbles2;
+
 };
 
 TopBubbles.prototype = new Entity();
@@ -34,13 +37,13 @@ TopBubbles.prototype.findHitBubble = function(column, row){
                                             this.offset+row*(2*BUBBLE_RADIUS),
                                             BUBBLE_RADIUS);
     if(E.isBubble) return E;
-}
+};
 
 TopBubbles.prototype.generateRow = function(){
     for(var i = 0; i < this.columnCount; i++){
         this.columns[i].splice(0,0,util.discreetRandRange(1,COLORS.length));
     }
-}
+};
 
 TopBubbles.prototype.cleanColumn = function(col){
     var count = 0;
@@ -52,13 +55,27 @@ TopBubbles.prototype.cleanColumn = function(col){
         this.columns[col].splice(this.columns[col].length-count, count);
     }
     //console.log(this.columns[col]);
-}
+};
 
 TopBubbles.prototype.generateDeathAnimation = function(i,j) {
+
+    var sx = this.offset+i*(2*BUBBLE_RADIUS);
+    var sy = this.offset+j*(2*BUBBLE_RADIUS);
+
     entityManager.generateSmoke({
-        cx: this.offset+i*(2*BUBBLE_RADIUS),
-        cy: this.offset+j*(2*BUBBLE_RADIUS)
+        cx : sx,
+        cy : sy
     });
+
+    var limit = util.discreetRandRange(10,20);
+    for(var p = 0; p < limit; ++p){
+
+        entityManager.generateParticle({
+            cx     : sx,
+            cy     : sy,
+            color  : -this.columns[i][j]
+        });
+    }
 };
 
 TopBubbles.prototype.findBubblesToEliminate = function(color,i,j){
@@ -145,12 +162,18 @@ TopBubbles.prototype.findBubblesToEliminate = function(color,i,j){
         this.findBubblesToEliminate(color, i, j+1);
     }*/
     
-}
+};
+
+TopBubbles.prototype.eliminateStrayBubbles = function () {
+
+};
 
 TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     this.columns[column][row] = bubble.color;
     bubble.kill();
     this.findBubblesToEliminate(bubble.color,column,row);
+
+    this.eliminateStrayBubbles();
 
     //get the player
     var player = entityManager._players[0];
@@ -158,13 +181,14 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     var eliminate = this.bubsToElim.length >= 3;
     for(var i = 0; i < this.bubsToElim.length; i++){
         if(eliminate){
+            // Death animation
+            this.generateDeathAnimation(this.bubsToElim[i][0], this.bubsToElim[i][1]);
+
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] = 0;
             this.colsToClean[this.bubsToElim[i][0]] = true;
             //the score for the player increase
             player.score = player.score+Math.floor(this.bubsToElim.length*player.multiplier*player.permult);
-
-            //console.log(this.bubsToElim);
-            this.generateDeathAnimation(this.bubsToElim[i][0], this.bubsToElim[i][1]);
+            
         } else {
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] *= -1;
         }
@@ -180,14 +204,14 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
         }
     }
     //document.getElementById('output').innerHTML = "Score: " + player.score;
-}
+};
     
 TopBubbles.prototype.distance = function(bubble, i, j){
     var a = (bubble.cx - this.offset-i*(2*BUBBLE_RADIUS));
     var b = (bubble.cy - this.offset-j*(2*BUBBLE_RADIUS));
     //console.log(a*a+b*b);
     return (a*a + b*b);
-}
+};
 
 TopBubbles.prototype.update = function (du) {
     spatialManager.unregister(this);
@@ -279,7 +303,7 @@ TopBubbles.prototype.render = function (ctx) {
                 ctx.globalAlpha = 0.8;
             }*/
             
-            g_sprites.bubbles2[this.columns[i][j]-1][this.renderCount].drawCentredAt(
+            this.sprite[this.columns[i][j]-1][this.renderCount].drawCentredAt(
                 ctx,
                 this.offset+i*(2*BUBBLE_RADIUS),// + oddOffset,
                 this.offset+j*(2*BUBBLE_RADIUS)// + oddOffset//2
@@ -292,3 +316,12 @@ TopBubbles.prototype.render = function (ctx) {
     }
     
 };
+
+/* //used to check if game becomes too slow when many bubbles die at once (copy into console)
+var tb = entityManager._topBubbles[0];
+for(var i = 0; i < tb.columnCount; i++){
+    for(var j = 0;j < tb.columns[i].length; j++){  
+        tb.columns[i][j] = 1;
+    }
+}
+*/

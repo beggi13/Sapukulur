@@ -26,6 +26,8 @@ function Bubble(descr) {
     this._bulletProperty = true;
     console.dir(this);
 */
+    // Default sprite, if not otherwise specified
+    this.sprite = this.sprite || g_sprites.bubbles2;
 
     this.color = util.discreetRandRange(1, COLORS.length);
 
@@ -85,8 +87,7 @@ Bubble.prototype.update = function (du) {
             cy     : this.cy,
             velX   : -this.velX/2 + util.randRange(-3,3),
             velY   : -this.velY/2 + util.randRange(-3,3),
-            color  : this.color,
-            radius : util.randRange(1,4)
+            color  : this.color
         });
     }
     
@@ -119,7 +120,7 @@ Bubble.prototype.render = function (ctx) {
     ctx.fillStyle = COLORS[this.color];
 
     //util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
-    g_sprites.bubbles2[this.color-1][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
+    this.sprite[this.color-1][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
     
     //g_sprites.smoke[0][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
 

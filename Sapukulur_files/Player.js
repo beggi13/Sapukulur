@@ -197,7 +197,8 @@ Player.prototype.updateMovement = function (du) {
 
 Player.prototype.render = function (ctx) {
     
-    g_sprites.cat[this.positions[this.renderCount]+this.spriteMode].drawCentredAt(ctx, this.cx, this.cy);
+    this.sprite[this.positions[this.renderCount]+this.spriteMode].drawCentredAt(ctx, this.cx, this.cy);
+//    g_sprites.cat[this.positions[this.renderCount]+this.spriteMode].drawCentredAt(ctx, this.cx, this.cy);
 
     document.getElementById('score').innerHTML = "Score: " + this.score;
     document.getElementById('permultiplier').innerHTML = "Power-up Multiplier: " + this.permult;
