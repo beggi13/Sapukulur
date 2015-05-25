@@ -25,6 +25,8 @@ function Player(descr) {
     
     // Set normal drawing scale, and warp state off
     this._scale = 1;
+
+    this.highScore = util.setHighScore(0);
     
 };
 
@@ -59,6 +61,7 @@ Player.prototype.positions = [1,1,1];
 Player.prototype.flag = "stop";
 Player.prototype.spriteMode = 0;    // can only be 0, 3, 6 or 9
 Player.prototype.score = 0;
+Player.prototype.highScore = 0;
 Player.prototype.MULT_DETERIORATION = 250;
 Player.prototype.permult = 1;
 Player.prototype.multiplier = 1;
@@ -199,11 +202,15 @@ Player.prototype.updateMovement = function (du) {
 Player.prototype.render = function (ctx) {
     
     this.sprite[this.positions[this.renderCount]+this.spriteMode].drawCentredAt(ctx, this.cx, this.cy);
-//    g_sprites.cat[this.positions[this.renderCount]+this.spriteMode].drawCentredAt(ctx, this.cx, this.cy);
 
     document.getElementById('score').innerHTML = "Score: " + this.score;
     document.getElementById('permultiplier').innerHTML = "Power-up Multiplier: " + this.permult;
     document.getElementById('multiplier').innerHTML = "Multiplier: " + (this.multiplier*this.permult).toFixed(2);
+
+    if(this.score > this.highScore){
+        this.highScore = this.score;
+        document.getElementById("highscore").innerHTML = "Your High Score: " + this.score;
+    }
 
     if(!this.bubble) return;
     // only draw arrow when the Player has a Bubble

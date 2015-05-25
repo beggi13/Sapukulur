@@ -157,6 +157,46 @@ preShake: function(ctx, power) { // power is the max possible movement in pixels
 
 postShake: function(ctx) {
     ctx.restore();
+},
+
+
+// localStorage
+
+setHighScore: function(newScore){
+
+    if(typeof(Storage) === "undefined") return; // Browser does not support localStorage
+
+    var currentHighScore = Number( localStorage.getItem("localHighScore") );
+
+    if(newScore > currentHighScore && currentHighScore !== "undefined"){
+        currentHighScore = newScore;
+        localStorage.setItem("localHighScore", currentHighScore);
+    }
+    return currentHighScore;
 }
 
+
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

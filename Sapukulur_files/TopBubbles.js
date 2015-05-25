@@ -1,5 +1,5 @@
 "use strict";
-// array.splice(0,0,element)
+// array.splice(0,0,element) 
 // array.shift()
 // array.push(element)
 // array.pop()
@@ -233,8 +233,6 @@ TopBubbles.prototype.render = function (ctx) {
 
     for(var i = 0; i < this.columnCount; i++){
         for(var j = 0;j < this.columns[i].length; j++){  
-            
-            var oddOffset = j % 2 === 0 ? 0 : BUBBLE_RADIUS;
 
 
             if(this.columns[i][j] === 0 || !g_sprites.bubbles2[this.columns[i][j]-1]) continue;
@@ -261,8 +259,8 @@ TopBubbles.prototype.render = function (ctx) {
             
             this.sprite[this.columns[i][j]-1][this.renderCount].drawCentredAt(
                 ctx,
-                this.offset+i*(2*BUBBLE_RADIUS),// + oddOffset,
-                this.offset+j*(2*BUBBLE_RADIUS)// + oddOffset//2
+                this.offset+i*(2*BUBBLE_RADIUS),
+                this.offset+j*(2*BUBBLE_RADIUS)
             );
 
           //  ctx.globalAlpha = 1;
