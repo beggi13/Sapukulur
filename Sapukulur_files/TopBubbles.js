@@ -148,7 +148,7 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
             entityManager.generatePowerUp({
                 cx: bubble.cx,
                 cy: bubble.cy,
-                color: Math.floor((util.discreetRandRange(1, COLORS.length) + util.discreetRandRange(1,COLORS.length))/2)
+                type: Math.floor((util.discreetRandRange(1, COLORS.length) + util.discreetRandRange(1,COLORS.length))/2)
             });
         }
     }

@@ -208,7 +208,6 @@ update: function(du) {
         }
     }
     
-    document.getElementById('timer').innerHTML = "Time to next row: " + (this.NEW_ROW_TIME*(this.newRowsSoFar+1)-main.getTime()).toFixed(0);
     
     if(this.NEW_ROW_TIME*(this.newRowsSoFar+1)-main.getTime()<0){
         this.newRowsSoFar = this.newRowsSoFar + 1;
@@ -218,6 +217,7 @@ update: function(du) {
 },
 
 render: function(ctx) {
+    document.getElementById('timer').innerHTML = "Time to next row: " + (this.NEW_ROW_TIME*(this.newRowsSoFar+1)-main.getTime()).toFixed(0);
 
     if(this.shakeAll) util.preShake(ctx);
 

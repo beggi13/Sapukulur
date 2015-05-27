@@ -144,27 +144,31 @@ Player.prototype.getRadius = function () {
     return (32/2) * 0.9;
 };
 
-Player.prototype.takePowerUpHit = function (color) {
+Player.prototype.takePowerUpHit = function (type) {
     //console.log("powerUp hit");
-    if(color === 1){
+    if(type === 1){
         this.spriteMode = 0;
         this.permult = 1;
-        this.launchVel = 10;
+        this.launchVel = 7;
+        return "More Speed"
     }
-    if(color === 2){
+    if(type === 2){
         this.spriteMode = 3;
         this.permult = 2;
-        this.launchVel = 10;
+        this.launchVel = 5;
+        return "2x Multiplier";
     }
-    if(color === 3){
+    if(type === 3){
         this.spriteMode = 6;
-        this.permult = 3;
-        this.launchVel = 10;
+        this.permult = 2;
+        this.launchVel = 7;
+        return "More Speed\n2x Multiplier";
     }
-    if(color === 4){
+    if(type === 4){
         this.spriteMode = 9;
         this.permult = 4;
-        this.launchVel = 10;
+        this.launchVel = 5;
+        return "4x Multiplier";
     }
 };
 
