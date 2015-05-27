@@ -44,7 +44,7 @@ PowerUp.prototype.cx = 200;
 PowerUp.prototype.cy = 200;
 PowerUp.prototype.velX = 0;
 PowerUp.prototype.velY = 3;
-PowerUp.prototype.type= 0;
+PowerUp.prototype.color= 0;
 
 PowerUp.prototype.b = 0;
 PowerUp.prototype.renderCount = 0;
@@ -73,7 +73,7 @@ PowerUp.prototype.update = function (du) {
         var canTakeHit = hitEntity.takePowerUpHit;
         if (canTakeHit){
             entityManager.generateMessage({
-                message: hitEntity.takePowerUpHit(this.type),
+                message: hitEntity.takePowerUpHit(this.color),
                 color: 3
             });
             return entityManager.KILL_ME_NOW;
@@ -95,7 +95,7 @@ PowerUp.prototype.render = function (ctx) {
    
     //util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
 
-    g_sprites.powerUp[this.type][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
+    g_sprites.powerUp[this.color][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
 
     //ctx.fillStyle = oldStyle;
 };
