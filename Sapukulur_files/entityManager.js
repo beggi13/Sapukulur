@@ -96,6 +96,12 @@ generateSmoke : function(descr) {
     return s;
 },
 
+generateMessage(descr){
+    var s = new Message(descr);
+    this._animations.push(s);
+    return s;
+},
+
 generateParticle : function(descr) {
     var p = new Particle(descr);
     this._animations.push(p);

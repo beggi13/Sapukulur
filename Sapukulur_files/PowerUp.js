@@ -72,7 +72,10 @@ PowerUp.prototype.update = function (du) {
     if (hitEntity) {
         var canTakeHit = hitEntity.takePowerUpHit;
         if (canTakeHit){
-            hitEntity.takePowerUpHit(this.type);
+            entityManager.generateMessage({
+                message: hitEntity.takePowerUpHit(this.type),
+                color: 3
+            });
             return entityManager.KILL_ME_NOW;
         }
     }
