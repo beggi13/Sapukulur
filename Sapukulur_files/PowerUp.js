@@ -46,7 +46,7 @@ PowerUp.prototype.velX = 0;
 PowerUp.prototype.velY = 3;
 PowerUp.prototype.color= 0;
 
-PowerUp.prototype.b = 0;
+PowerUp.prototype.stillFrames = 0;
 PowerUp.prototype.renderCount = 0;
 
 PowerUp.prototype.update = function (du) {
@@ -54,15 +54,27 @@ PowerUp.prototype.update = function (du) {
     spatialManager.unregister(this);
 
     // for animation
-    if(10 === this.b++) {
-        this.b = 0;
+    if(10 === this.stillFrames++) {
+        this.stillFrames = 0;
         ++this.renderCount; 
     }   
     if (this.renderCount === 8) this.renderCount = 0;
 
+    // update movement
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
+    // particles
+    entityManager.generateParticle({
+        cx     : this.cx,
+        cy     : this.cy,
+        velX   : 0.001,
+        velY   : -1,
+        color  : COLORS[this.color]
+    });
+
+
+    // below canvas == dead
     if (this.cy > this.getRadius() + g_canvas.height){
         return entityManager.KILL_ME_NOW;
     }

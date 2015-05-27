@@ -30,7 +30,7 @@ function Particle(descr) {
     this.velY   = this.velY   || util.randRange(-3,3);
     this.radius = this.radius || util.randRange(1,4);
 
-    this.color  = this.color  || util.discreetRandRange(1, COLORS.length);
+    this.color  = this.color  || COLORS[ util.discreetRandRange(1, COLORS.length) ];
 
 }
 
@@ -76,7 +76,7 @@ Particle.prototype.getRadius = function () {
 
 Particle.prototype.render = function (ctx) {
     var oldStyle = ctx.fillStyle;
-    ctx.fillStyle = COLORS[this.color];
+    ctx.fillStyle = this.color;//COLORS[this.color];
 
     var fadeThresh = Particle.prototype.lifeSpan;
 
