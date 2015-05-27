@@ -66,6 +66,7 @@ Player.prototype.MULT_DETERIORATION = 250;
 Player.prototype.permult = 1;
 Player.prototype.multiplier = 1;
 Player.prototype.isCat = true;
+Player.prototype.nextBubbleColor = 0;
     
 Player.prototype.update = function (du) {
 
@@ -102,9 +103,11 @@ Player.prototype.update = function (du) {
         var dX = +Math.sin(this.rotation);
         var dY = -Math.cos(this.rotation);
         var launchDist = this.getRadius() * 1.5;
+
         this.bubble = entityManager.generateBubble({
-            cx: this.cx,// + dX * launchDist,
-            cy: this.cy + launchDist//dY * launchDist
+            cx    : this.cx,
+            cy    : this.cy + launchDist,
+            color : util.discreetRandRange(1, COLORS.length)
         });
     }
 
@@ -146,25 +149,23 @@ Player.prototype.getRadius = function () {
 
 Player.prototype.takePowerUpHit = function (color) {
     //console.log("powerUp hit");
+    //this.bubble.color = COLORS.length;
     if(color === 1){
         this.spriteMode = 0;
         this.permult = 1;
-        this.launchVel = 10;
+
     }
     if(color === 2){
         this.spriteMode = 3;
         this.permult = 2;
-        this.launchVel = 10;
     }
     if(color === 3){
         this.spriteMode = 6;
         this.permult = 3;
-        this.launchVel = 10;
     }
     if(color === 4){
         this.spriteMode = 9;
         this.permult = 4;
-        this.launchVel = 10;
     }
 };
 

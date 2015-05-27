@@ -83,7 +83,7 @@ TopBubbles.prototype.generateDeathAnimation = function(i,j) {
         entityManager.generateParticle({
             cx     : sx,
             cy     : sy,
-            color  : -this.columns[i][j]
+            color  : COLORS[ -this.columns[i][j] ]
         });
     }
 };
@@ -144,7 +144,7 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     }
     if(eliminate){
         player.multiplier += this.bubsToElim.length - 1;
-        if(util.randRange(0,100)<30){
+        if(1){//util.randRange(0,100)<30){
             entityManager.generatePowerUp({
                 cx: bubble.cx,
                 cy: bubble.cy,
@@ -177,7 +177,7 @@ TopBubbles.prototype.update = function (du) {
     this.bubsToElim = [];
     
     for(var i = 0; i < this.columnCount; i++){
-        for(var j = 0;j <= this.columns[i].length; j++){
+        for(var j = 0; j <= this.columns[i].length; j++){
             var c = this.columns[i][j];
             //console.log(c);
             if(c){

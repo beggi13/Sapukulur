@@ -29,7 +29,7 @@ function Bubble(descr) {
     // Default sprite, if not otherwise specified
     this.sprite = this.sprite || g_sprites.bubbles2;
 
-    this.color = util.discreetRandRange(1, COLORS.length);
+    this.color = this.color || util.discreetRandRange(1, COLORS.length);
 
 }
 
@@ -87,7 +87,7 @@ Bubble.prototype.update = function (du) {
             cy     : this.cy,
             velX   : -this.velX/2 + util.randRange(-3,3),
             velY   : -this.velY/2 + util.randRange(-3,3),
-            color  : this.color
+            color  : COLORS[ this.color ]
         });
     }
     
