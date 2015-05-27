@@ -55,15 +55,18 @@ body{
 }
 
 .gameOver {
-    width:100%;
+    width:50%;
     position: absolute;
-    top:35%;
-    margin: 30px;
-    border: 1px solid red;
+    top:30%;
+    left: 20%;
+    /*margin: 30px;*/
+    border: 1px solid white;
     cursor: default;
     display: none;
-    background-image: url("kisi.jpg");
-    padding: 10px;
+    background-color: #FF6666;
+    background-image: url("giphy.gif");
+    background-repeat: no-repeat;
+    /*padding: 10px;*/
     z-index: 10;
 }
 
@@ -71,10 +74,10 @@ body{
     margin: 5%;
     font-family: Helvetica, sans-serif;
     font-weight: bold;
-    font-size: 80px;
+    font-size: 60px;
     color: #FF0000;
     position: relative;
-    left: 25%;
+    left: 35%;
     opacity: 0%;
 }
 
