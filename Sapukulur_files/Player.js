@@ -139,6 +139,8 @@ Player.prototype.maybeFireBubble = function () {
         this.bubble.velY = relVelY;
            
         this.bubble = undefined;
+        var snd = new Audio("sounds/Laser_Shoot.wav");
+        if(g_sound) snd.play();
     }
     
 };
@@ -150,6 +152,8 @@ Player.prototype.getRadius = function () {
 Player.prototype.takePowerUpHit = function (color) {
     //console.log("powerUp hit");
     //this.bubble.color = COLORS.length;
+    var snd = new Audio("sounds/powerup2.wav");
+    if(g_sound) snd.play();
     if(color === 1){
         this.spriteMode = 0;
         this.permult = 1;

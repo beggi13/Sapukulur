@@ -20,6 +20,7 @@ var g_isUpdateOdd = false;
 
 function update(dt) {
     
+    if(eatKey(KEY_MUTE)) g_sound = !g_sound;
     // Get out if skipping (e.g. due to pause-mode)
     //
     if (shouldSkipUpdate()) return;
@@ -52,6 +53,7 @@ function update(dt) {
 //
 var KEY_PAUSE = 'P'.charCodeAt(0);
 var KEY_STEP  = 'O'.charCodeAt(0); // Taka út seinna?
+var KEY_MUTE = 'M'.charCodeAt(0);
 
 var g_isUpdatePaused = false;
 
