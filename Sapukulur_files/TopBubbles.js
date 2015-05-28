@@ -83,7 +83,7 @@ TopBubbles.prototype.generateDeathAnimation = function(i,j) {
         entityManager.generateParticle({
             cx     : sx,
             cy     : sy,
-            color  : COLORS[ -this.columns[i][j] ]
+            color  : COLORS[ -this.columns[i][j] ] || "purple"
         });
     }
 };
@@ -117,44 +117,39 @@ TopBubbles.prototype.findBubblesToEliminate = function(color,i,j){
     
 };
 
-TopBubbles.prototype.findBubblesToBomb = function(i, j, radius) {
+TopBubbles.prototype.findBubblesToBomb = function(sx, sy, radius) {
 
-    if(radius < 0) return;
-    this.columns[i][j] = -this.columns[i][j];
-    this.bubsToElim.push([i,j]);
+    for(var c = 0; c < this.columns.length; ++c){
+        for(var r = 0; r < this.columns[c].length; ++r){
 
-    if(this.columns[i-1]
-        && this.columns[i-1][j]
-        && this.columns[i-1][j] > 0){
-        this.findBubblesToBomb(i-1,j,radius-1);
-    }
-    if(this.columns[i+1]
-        && this.columns[i+1][j]
-        && this.columns[i+1][j] > 0){
-        this.findBubblesToBomb(i+1,j,radius-1);
-    }
-    if(this.columns[i][j-1]
-        && this.columns[i][j-1] > 0){
-        this.findBubblesToBomb(i,j-1,radius-1);
-    }
-    if(this.columns[i][j+1]
-        && this.columns[i][j+1] > 0){
-        this.findBubblesToBomb(i,j+1,radius-1);
+            if(!this.columns[c] || this.columns[c][r] <= 0 || !this.columns[c][r]) continue;
+
+            var tx = this.offset+c*(2*BUBBLE_RADIUS);
+            var ty = this.offset+r*(2*BUBBLE_RADIUS);
+
+            var dist = util.distSq(sx,sy,tx,ty);
+
+            if( dist < (radius+BUBBLE_RADIUS) * (radius+BUBBLE_RADIUS) ){
+                this.columns[c][r] *= -1;
+                this.bubsToElim.push([c,r]);
+            } 
+
+        }
     }
 
 };
 
-
 TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     this.columns[column][row] = bubble.color;
     bubble.kill();
-    if(bubble.color === COLORS.length)  this.findBubblesToBomb(column, row, bubble.blowRadius);
-    this.findBubblesToEliminate(bubble.color,column,row);
+    // if bomb bubble
+    if(bubble.color === COLORS.length)  this.findBubblesToBomb(bubble.cx, bubble.cy, bubble.blowRadius);
+    else                                this.findBubblesToEliminate(bubble.color,column,row);
 
     //get the player
     var player = entityManager._players[0];
     //console.log(player);
-    var eliminate = this.bubsToElim.length >= 3;
+    var eliminate = this.bubsToElim.length >= 3 || bubble.color === COLORS.length; // so bomb bubble can blow up less than 3 bubbles
     for(var i = 0; i < this.bubsToElim.length; i++){
         if(eliminate){
             // Death animation

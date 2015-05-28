@@ -160,7 +160,7 @@ Player.prototype.takePowerUpHit = function (color) {
     if(color === 1){
         this.spriteMode = 0;
         this.permult = 1;
-        this.nextBubbleColor = COLORS.length;
+        this.nextBubbleColor = COLORS.length; // next bubble = bomb
     }
     if(color === 2){
         this.spriteMode = 3;

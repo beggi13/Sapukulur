@@ -83,7 +83,7 @@ shakeTime : 0,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._animations, this._topBubbles, this._powerUps, this._players, this._freeBubbles];
+    this._categories = [this._animations, this._topBubbles, this._powerUps, this._freeBubbles, this._players];
 },
 
 init: function() {

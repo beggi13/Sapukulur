@@ -87,18 +87,6 @@ main.gameOver = function () {
     console.log("gameOver: quitting...");
 
     document.getElementById("highscore").innerHTML = "Your High Score: " + util.setHighScore(entityManager._players[0].score);
- /*   if(typeof(Storage) === "undefined") return; // Browser does not support localStorage
-
-    var score = entityManager._players[0].score;
-    var currentHighScore = Number( localStorage.getItem("localHighScore") );
-
-    if(score > currentHighScore && currentHighScore !== "undefined"){
-        currentHighScore = score;
-        localStorage.setItem("localHighScore", currentHighScore);
-        document.getElementById("highscore").innerHTML = "Your High Score: " + currentHighScore;
-    }*/
-
-
 };
 
 // Simple voluntary quit mechanism

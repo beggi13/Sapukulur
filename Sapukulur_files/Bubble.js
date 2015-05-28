@@ -30,7 +30,7 @@ function Bubble(descr) {
     this.sprite = this.sprite || g_sprites.bubbles2;
 
     this.color = this.color || util.discreetRandRange(1, COLORS.length);
-    this.blowRadius = util.discreetRandRange(2,6);
+    this.blowRadius = util.discreetRandRange(30,100);
 
 }
 
@@ -119,16 +119,20 @@ Bubble.prototype.takeBubbleHit = function () {
 
 Bubble.prototype.render = function (ctx) {
     var oldStyle = ctx.fillStyle;
-    ctx.fillStyle = COLORS[this.color];
+    ctx.fillStyle = COLORS[ this.color ];
+
+
+    if(this.color === COLORS.length){
+        ctx.fillStyle = "purple";
+        ctx.globalAlpha = 0.3;
+        util.fillCircle(ctx, this.cx, this.cy, this.blowRadius);
+        ctx.globalAlpha = 1;
+      /*  ctx.strokeStyle = "purple"
+        ctx.stroke();  */
+    }
 
     //util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
-
     this.sprite[this.color-1][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
-    
-    //g_sprites.smoke[0][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
-    if(this.color === COLORS.length){
-        util.drawText(ctx, this.cx - BUBBLE_RADIUS*1.5, this.cy, this.blowRadius, 13);
-    }
 
     ctx.fillStyle = oldStyle;
 };

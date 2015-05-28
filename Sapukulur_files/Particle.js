@@ -46,7 +46,7 @@ Particle.prototype.velY = 0;
 Particle.prototype.lifeSpan = 1000 / NOMINAL_UPDATE_INTERVAL;
 
 Particle.prototype.isParticle = true;
-Particle.prototype.color = 0;
+Particle.prototype.color = "white";
 
 Particle.prototype.update = function (du) {
 
@@ -59,12 +59,9 @@ Particle.prototype.update = function (du) {
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-    // hmm??                                                                    ----------------------------
+    // bounce off sides
     if(this.cx - this.radius < 0 || this.cx + this.radius > g_canvas.width){
         this.velX *= -1;
-    }
-    if(this.cy - this.radius < 0 || this.cy + this.radius > g_canvas.height){
-        this.velY *= -1;
     }
 
     spatialManager.register(this);
