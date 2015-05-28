@@ -96,7 +96,7 @@ generateSmoke : function(descr) {
     return s;
 },
 
-generateMessage(descr){
+generateMessage : function(descr){
     var s = new Message(descr);
     this._animations.push(s);
     return s;
