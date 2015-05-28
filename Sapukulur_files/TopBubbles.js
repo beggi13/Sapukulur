@@ -153,6 +153,8 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     for(var i = 0; i < this.bubsToElim.length; i++){
         if(eliminate){
             // Death animation
+            var snd = new Audio("sounds/kill5.wav");
+            if(g_sound) snd.play();
             this.generateDeathAnimation(this.bubsToElim[i][0], this.bubsToElim[i][1]);
 
             this.columns[this.bubsToElim[i][0]][this.bubsToElim[i][1]] = 0;
@@ -166,7 +168,8 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     }
     if(eliminate){
         player.multiplier += this.bubsToElim.length - 1;
-        if(util.randRange(0,100)<30){
+
+        if(util.randRange((this.bubsToElim.length-3)*2,100)<30){
             entityManager.generatePowerUp({
                 cx: bubble.cx,
                 cy: bubble.cy,
@@ -241,6 +244,8 @@ TopBubbles.prototype.update = function (du) {
     
     if(!util.isBetween(this.maxColumnLength(), 1, 20)){
         main.gameOver();
+        var snd = new Audio("sounds/gameover2.wav");
+        if(g_sound) snd.play();
     }
 
 };

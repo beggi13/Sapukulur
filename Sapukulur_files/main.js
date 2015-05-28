@@ -141,6 +141,8 @@ main.init = function () {
 
     // We'll be working on a black background here,
     // so let's use a fillStyle which works against that...
+    var snd = new Audio("sounds/mja.wav");
+    if(g_sound) snd.play();
     //
     g_ctx.fillStyle = "white";
 

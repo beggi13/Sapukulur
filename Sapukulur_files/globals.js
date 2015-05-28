@@ -32,3 +32,5 @@ var COLORS = [
 ];
 
 var BUBBLE_RADIUS = 10
+
+var g_sound = true;

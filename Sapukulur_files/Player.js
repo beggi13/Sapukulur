@@ -143,6 +143,8 @@ Player.prototype.maybeFireBubble = function () {
         this.bubble.velY = relVelY;
            
         this.bubble = undefined;
+        var snd = new Audio("sounds/Laser_Shoot.wav");
+        if(g_sound) snd.play();
     }
     
 };
@@ -154,26 +156,38 @@ Player.prototype.getRadius = function () {
 Player.prototype.takePowerUpHit = function (color) {
     //console.log("powerUp hit");
     //this.bubble.color = COLORS.length;
+
     //this.bubble.blowRadius = 4;
     //this.nextBubbleColor = COLORS.length;
     //entityManager.shakeAllFor(util.discreetRandRange(5,20));
+
+    var snd = new Audio("sounds/powerup2.wav");
+    if(g_sound) snd.play();
     if(color === 1){
         this.spriteMode = 0;
         this.permult = 1;
+        this.launchVel = 7;
         this.nextBubbleColor = COLORS.length; // next bubble = bomb
+        return "More Speed";
     }
     if(color === 2){
         this.spriteMode = 3;
         this.permult = 2;
+        this.launchVel = 5;
+        return "2x Multiplier";
     }
     if(color === 3){
         this.spriteMode = 6;
-        this.permult = 3;
+        this.permult = 2;
+        this.launchVel = 7;
+        return "More Speed\n2x Multiplier";
     }
     if(color === 4){
         this.spriteMode = 9;
         this.permult = 4;
+        this.launchVel = 5;
         entityManager.shakeAllFor(util.discreetRandRange(5,20));
+        return "4x Multiplier";
     }
 };
 
