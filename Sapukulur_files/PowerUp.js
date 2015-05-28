@@ -101,10 +101,12 @@ PowerUp.prototype.getRadius = function () {
 PowerUp.prototype.render = function (ctx) {
     var oldStyle = ctx.fillStyle;
     ctx.fillStyle = COLORS[this.color];
-   
-    util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
+    
+    ctx.globalAlpha = 0.5;
+    util.fillCircle(ctx, this.cx, this.cy, this.getRadius() + 7);
+    ctx.globalAlpha = 1;
 
-   g_sprites.powerUp[this.color][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
+    g_sprites.powerUp[this.color][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
 
     ctx.fillStyle = oldStyle;
 };

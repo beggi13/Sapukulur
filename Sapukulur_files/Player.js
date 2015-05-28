@@ -107,8 +107,12 @@ Player.prototype.update = function (du) {
         this.bubble = entityManager.generateBubble({
             cx    : this.cx,
             cy    : this.cy + launchDist,
-            color : util.discreetRandRange(1, COLORS.length)
+            color : this.nextBubbleColor || util.discreetRandRange(1, COLORS.length)
         });
+    }
+    if(this.bubble && this.nextBubbleColor){
+        this.bubble.color = this.nextBubbleColor;
+        this.nextBubbleColor = 0;
     }
 
     spatialManager.register(this);
@@ -150,10 +154,13 @@ Player.prototype.getRadius = function () {
 Player.prototype.takePowerUpHit = function (color) {
     //console.log("powerUp hit");
     //this.bubble.color = COLORS.length;
+    //this.bubble.blowRadius = 4;
+    //this.nextBubbleColor = COLORS.length;
+    //entityManager.shakeAllFor(util.discreetRandRange(5,20));
     if(color === 1){
         this.spriteMode = 0;
         this.permult = 1;
-
+        this.nextBubbleColor = COLORS.length;
     }
     if(color === 2){
         this.spriteMode = 3;
@@ -166,6 +173,7 @@ Player.prototype.takePowerUpHit = function (color) {
     if(color === 4){
         this.spriteMode = 9;
         this.permult = 4;
+        entityManager.shakeAllFor(util.discreetRandRange(5,20));
     }
 };
 

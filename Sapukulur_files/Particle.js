@@ -60,12 +60,12 @@ Particle.prototype.update = function (du) {
     this.cy += this.velY * du;
 
     // hmm??                                                                    ----------------------------
- /*   if(this.cx - this.getRadius() < 0 || this.cx + this.getRadius() > g_canvas.width){
+    if(this.cx - this.radius < 0 || this.cx + this.radius > g_canvas.width){
         this.velX *= -1;
     }
-    if(this.cy > g_canvas.height){
+    if(this.cy - this.radius < 0 || this.cy + this.radius > g_canvas.height){
         this.velY *= -1;
-    }*/
+    }
 
     spatialManager.register(this);
 };
@@ -84,10 +84,7 @@ Particle.prototype.render = function (ctx) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
     }
 
-    util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
-    //g_sprites.Particles2[this.color-1][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
-    
-    //g_sprites.smoke[0][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
+    util.fillCircle(ctx, this.cx, this.cy, this.radius);
 
     ctx.fillStyle = oldStyle;
     ctx.globalAlpha = 1;

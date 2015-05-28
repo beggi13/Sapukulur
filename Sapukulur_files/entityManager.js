@@ -77,7 +77,7 @@ TOP_BUBBLES_INITIAL_ROWS : 8,
 NEW_ROW_TIME : 30,
 
 newRowsSoFar : 0,
-shakeAll : false,
+shakeTime : 0,
 
 // Some things must be deferred until after initial construction
 // i.e. thing which need `this` to be defined.
@@ -182,6 +182,10 @@ clearEverything : function(){
         }
 },
 
+shakeAllFor: function(sec) {
+    this.shakeTime = sec*1000 / NOMINAL_UPDATE_INTERVAL;
+},
+
 
 update: function(du) {
     
@@ -215,11 +219,13 @@ update: function(du) {
         this._topBubbles[0].generateRow();
     }
 
+    this.shakeTime = this.shakeTime > 0 ? this.shakeTime-du : 0;
+
 },
 
 render: function(ctx) {
 
-    if(this.shakeAll) util.preShake(ctx);
+    if(this.shakeTime) util.preShake(ctx);
 
     var debugX = 10, debugY = 100;
 
@@ -236,7 +242,7 @@ render: function(ctx) {
         debugY += 10;
     }
 
-    if(this.shakeAll) util.postShake(ctx);
+    if(this.shakeTime) util.postShake(ctx);
 
 
     // For debugging, to see what entities are alive at some point in time

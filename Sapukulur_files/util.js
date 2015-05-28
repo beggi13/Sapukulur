@@ -100,6 +100,7 @@ fillCircle: function (ctx, x, y, r) {
 },
 
 fillBox: function (ctx, x, y, w, h, style) {
+    if(h === undefined) h = w;
     var oldStyle = ctx.fillStyle;
     ctx.fillStyle = style;
     ctx.fillRect(x, y, w, h);
@@ -139,6 +140,15 @@ drawArrow: function (ctx, sx, sy, angle, length, angleWidth) {
     ctx.restore();
 },
 
+drawText: function(ctx, cx, cy, string, fontSize){
+    ctx.save();
+    ctx.textAlign = "center";
+    if(fontSize===undefined) fontSize = 10
+    ctx.font = fontSize+"px Georgia";
+    ctx.fillText(string, cx, cy);
+    ctx.restore();
+},
+
 
 // Animation
 
@@ -174,6 +184,8 @@ setHighScore: function(newScore){
     }
     return currentHighScore;
 }
+
+
 
 
 };

@@ -30,6 +30,7 @@ function Bubble(descr) {
     this.sprite = this.sprite || g_sprites.bubbles2;
 
     this.color = this.color || util.discreetRandRange(1, COLORS.length);
+    this.blowRadius = util.discreetRandRange(2,6);
 
 }
 
@@ -51,6 +52,7 @@ Bubble.prototype.isBubble = true;
 Bubble.prototype.launchVel = 5;
 Bubble.prototype.renderCount = 0;
 Bubble.prototype.stillFrames = 0;
+Bubble.prototype.blowRadius = 0;
 
 Bubble.prototype.update = function (du) {
 
@@ -81,7 +83,7 @@ Bubble.prototype.update = function (du) {
     }
 
 
-    if( (this.velX !== 0 || this.velY !== 0) ){//&& eatKey('J'.charCodeAt(0)) ){
+    if( (this.velX !== 0 || this.velY !== 0) ){
         entityManager.generateParticle({
             cx     : this.cx,
             cy     : this.cy,
@@ -120,9 +122,13 @@ Bubble.prototype.render = function (ctx) {
     ctx.fillStyle = COLORS[this.color];
 
     //util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
+
     this.sprite[this.color-1][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
     
     //g_sprites.smoke[0][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
+    if(this.color === COLORS.length){
+        util.drawText(ctx, this.cx - BUBBLE_RADIUS*1.5, this.cy, this.blowRadius, 13);
+    }
 
     ctx.fillStyle = oldStyle;
 };

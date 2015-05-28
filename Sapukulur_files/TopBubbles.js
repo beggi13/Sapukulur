@@ -117,12 +117,39 @@ TopBubbles.prototype.findBubblesToEliminate = function(color,i,j){
     
 };
 
+TopBubbles.prototype.findBubblesToBomb = function(i, j, radius) {
+
+    if(radius < 0) return;
+    this.columns[i][j] = -this.columns[i][j];
+    this.bubsToElim.push([i,j]);
+
+    if(this.columns[i-1]
+        && this.columns[i-1][j]
+        && this.columns[i-1][j] > 0){
+        this.findBubblesToBomb(i-1,j,radius-1);
+    }
+    if(this.columns[i+1]
+        && this.columns[i+1][j]
+        && this.columns[i+1][j] > 0){
+        this.findBubblesToBomb(i+1,j,radius-1);
+    }
+    if(this.columns[i][j-1]
+        && this.columns[i][j-1] > 0){
+        this.findBubblesToBomb(i,j-1,radius-1);
+    }
+    if(this.columns[i][j+1]
+        && this.columns[i][j+1] > 0){
+        this.findBubblesToBomb(i,j+1,radius-1);
+    }
+
+};
+
 
 TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     this.columns[column][row] = bubble.color;
     bubble.kill();
+    if(bubble.color === COLORS.length)  this.findBubblesToBomb(column, row, bubble.blowRadius);
     this.findBubblesToEliminate(bubble.color,column,row);
-
 
     //get the player
     var player = entityManager._players[0];
@@ -144,7 +171,7 @@ TopBubbles.prototype.absorbBubble = function(bubble,column,row){
     }
     if(eliminate){
         player.multiplier += this.bubsToElim.length - 1;
-        if(1){//util.randRange(0,100)<30){
+        if(util.randRange(0,100)<30){
             entityManager.generatePowerUp({
                 cx: bubble.cx,
                 cy: bubble.cy,
