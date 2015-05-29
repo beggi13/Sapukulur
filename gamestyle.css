@@ -24,6 +24,7 @@ body{
     top:50%;
     margin-top:-350px;
     max-height:700px;
+    cursor: none;
     /*height: 99vh;
     top:50%;
     transform: translateY(-50%);*/

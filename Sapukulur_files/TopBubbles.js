@@ -28,6 +28,8 @@ TopBubbles.prototype.cy = 0;
 TopBubbles.prototype.stillFrames = 0;
 TopBubbles.prototype.renderCount = 0;
 
+TopBubbles.prototype.maxRows = 20;
+
 TopBubbles.prototype.columnCount = Math.floor(g_canvas.width/(2*BUBBLE_RADIUS));
 TopBubbles.prototype.offset = (g_canvas.width%(2*BUBBLE_RADIUS))/2 + BUBBLE_RADIUS;
 
@@ -242,7 +244,7 @@ TopBubbles.prototype.update = function (du) {
     
     spatialManager.register(this);
     
-    if(!util.isBetween(this.maxColumnLength(), 1, 20)){
+    if(!util.isBetween(this.maxColumnLength(), 1, this.maxRows)){
         main.gameOver();
         var snd = new Audio("sounds/gameover2.wav");
         if(g_sound) snd.play();
@@ -295,6 +297,8 @@ TopBubbles.prototype.render = function (ctx) {
         }
         
     }
+
+    util.fillBox(ctx, 0, this.offset+(this.maxRows*2*BUBBLE_RADIUS), g_canvas.width, 1);
     
 };
 

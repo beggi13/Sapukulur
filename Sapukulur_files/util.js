@@ -149,8 +149,28 @@ drawText: function(ctx, cx, cy, string, fontSize){
     ctx.restore();
 },
 
+drawAim: function(ctx, cx, cy, radius){
+    if(radius === undefined) radius = BUBBLE_RADIUS;
+    ctx.save();
+    ctx.strokeStyle = "white";
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    this.fillCircle(ctx,cx,cy,radius);
+    this.strokeCircle(ctx,cx,cy,radius);
 
-// Animation
+    ctx.beginPath();
+    ctx.moveTo(cx,cy-radius);
+    ctx.lineTo(cx,cy+radius);
+    ctx.moveTo(cx-radius,cy);
+    ctx.lineTo(cx+radius,cy);
+    ctx.stroke();
+
+
+    ctx.restore();
+},
+
+
+// ANIMATION
+// =========
 
 preShake: function(ctx, power) { // power is the max possible movement in pixels when shaking
     
@@ -170,7 +190,8 @@ postShake: function(ctx) {
 },
 
 
-// localStorage
+// LOCAL STORAGE
+// =============
 
 setHighScore: function(newScore){
 
@@ -183,6 +204,26 @@ setHighScore: function(newScore){
         localStorage.setItem("localHighScore", currentHighScore);
     }
     return currentHighScore;
+},
+
+// SERVER COMMUNICATION
+// ====================
+
+oadXMLDoc: function(){
+    var xmlhttp;
+    if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else{// code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function(){
+        if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET","demo_get2.asp?fname=Henry&lname=Ford",true);
+    xmlhttp.send();
 }
 
 

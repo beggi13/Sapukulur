@@ -61,7 +61,6 @@ Player.prototype.positions = [1,1,1];
 Player.prototype.flag = "stop";
 Player.prototype.spriteMode = 0;    // can only be 0, 3, 6 or 9
 Player.prototype.score = 0;
-Player.prototype.highScore = 0;
 Player.prototype.MULT_DETERIORATION = 250;
 Player.prototype.permult = 1;
 Player.prototype.multiplier = 1;
@@ -174,6 +173,7 @@ Player.prototype.takePowerUpHit = function (color) {
         this.spriteMode = 3;
         this.permult = 2;
         this.launchVel = 5;
+        entityManager.addTimeToNextRow(10);
         return "2x Multiplier";
     }
     if(color === 3){
@@ -230,10 +230,8 @@ Player.prototype.render = function (ctx) {
     document.getElementById('permultiplier').innerHTML = "Power-up Multiplier: " + this.permult;
     document.getElementById('multiplier').innerHTML = "Multiplier: " + (this.multiplier*this.permult).toFixed(2);
 
-    if(this.score > this.highScore){
-        this.highScore = this.score;
-        document.getElementById("highscore").innerHTML = "Your High Score: " + this.score;
-    }
+    document.getElementById("highscore").innerHTML = "Your High Score: " + util.setHighScore(this.score);
+
 
     if(!this.bubble) return;
     // only draw arrow when the Player has a Bubble

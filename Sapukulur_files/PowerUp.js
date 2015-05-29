@@ -112,5 +112,5 @@ PowerUp.prototype.render = function (ctx) {
 
     g_sprites.powerUp[this.color][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
 
-    //ctx.fillStyle = oldStyle;
+    ctx.fillStyle = oldStyle;
 };

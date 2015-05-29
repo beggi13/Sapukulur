@@ -74,10 +74,11 @@ _forEachOf: function(aCategory, fn) {
 //
 KILL_ME_NOW : -1,
 TOP_BUBBLES_INITIAL_ROWS : 8,
-NEW_ROW_TIME : 30,
+NEW_ROW_TIME : 30000 / NOMINAL_UPDATE_INTERVAL,//30,
 
 newRowsSoFar : 0,
 shakeTime : 0,
+timeToNextRow : 0,
 
 // Some things must be deferred until after initial construction
 // i.e. thing which need `this` to be defined.
@@ -87,7 +88,7 @@ deferredSetup : function () {
 },
 
 init: function() {
-    //??
+    this.timeToNextRow = this.NEW_ROW_TIME;
 },
 
 generateSmoke : function(descr) {
@@ -110,7 +111,7 @@ generateParticle : function(descr) {
 
 generateTopBubbles : function(descr) {
     this._topBubbles[0] = new TopBubbles(descr);
-    for(var i = 0; i<this.TOP_BUBBLES_INITIAL_ROWS;i++){
+    for(var i = 0; i<this.TOP_BUBBLES_INITIAL_ROWS; i++){
         this._topBubbles[0].generateRow();
     }
     return this._topBubbles[0];
@@ -192,6 +193,10 @@ shakeAllFor: function(sec) {
     this.shakeTime = sec*1000 / NOMINAL_UPDATE_INTERVAL;
 },
 
+addTimeToNextRow: function(sec) {
+    this.timeToNextRow += sec*1000 / NOMINAL_UPDATE_INTERVAL;
+},
+
 
 update: function(du) {
     
@@ -219,9 +224,14 @@ update: function(du) {
     }
     
     
-    if(this.NEW_ROW_TIME*(this.newRowsSoFar+1)-main.getTime()<0){
+/*    if(this.NEW_ROW_TIME*(this.newRowsSoFar+1)-main.getTime()<0){
         this.newRowsSoFar = this.newRowsSoFar + 1;
         this._topBubbles[0].generateRow();
+    }*/
+    this.timeToNextRow -= du;
+    if(this.timeToNextRow < 0){
+        this._topBubbles[0].generateRow();
+        this.timeToNextRow = this.NEW_ROW_TIME;
     }
 
     this.shakeTime = this.shakeTime > 0 ? this.shakeTime-du : 0;
@@ -229,9 +239,11 @@ update: function(du) {
 },
 
 render: function(ctx) {
-    document.getElementById('timer').innerHTML = "Time to next row: " + (this.NEW_ROW_TIME*(this.newRowsSoFar+1)-main.getTime()).toFixed(0);
+    //document.getElementById('timer').innerHTML = "Time to next row: " + (this.NEW_ROW_TIME*(this.newRowsSoFar+1)-main.getTime()).toFixed(0);
 
-    if(this.shakeTime) util.preShake(ctx);
+    document.getElementById('timer').innerHTML = "Time to next row: " + ~~(this.timeToNextRow * NOMINAL_UPDATE_INTERVAL / 1000);
+
+    if(this.shakeTime && !g_isUpdatePaused) util.preShake(ctx);
 
     var debugX = 10, debugY = 100;
 
@@ -250,6 +262,8 @@ render: function(ctx) {
 
     if(this.shakeTime) util.postShake(ctx);
 
+    // draw aim
+    util.drawAim(ctx, g_mouseX, g_mouseY);
 
     // For debugging, to see what entities are alive at some point in time
     if(keys['L'.charCodeAt(0)]) console.log(entityManager._categories); 
