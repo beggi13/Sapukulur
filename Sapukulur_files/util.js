@@ -195,11 +195,11 @@ postShake: function(ctx) {
 
 setHighScore: function(newScore){
 
-    if(typeof(Storage) === "undefined") return; // Browser does not support localStorage
+    if(typeof(Storage) === undefined) return; // Browser does not support localStorage
 
     var currentHighScore = Number( localStorage.getItem("localHighScore") );
 
-    if(newScore > currentHighScore && currentHighScore !== "undefined"){
+    if(newScore > currentHighScore && currentHighScore !== undefined){
         currentHighScore = newScore;
         localStorage.setItem("localHighScore", currentHighScore);
     }
@@ -209,21 +209,28 @@ setHighScore: function(newScore){
 // SERVER COMMUNICATION
 // ====================
 
-oadXMLDoc: function(){
-    var xmlhttp;
-    if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp = new XMLHttpRequest();
-    }
-    else{// code for IE6, IE5
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange = function(){
-        if (xmlhttp.readyState==4 && xmlhttp.status==200){
-            document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+
+sendScore: function(name, score, elementID) {
+    var result = "";
+    if (name == "") {
+        document.getElementById(elementID).innerHTML = "";
+        return;
+    } else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById(elementID).innerHTML = xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("GET","cs.ucsb.edu/~beggi13/testing/phpTest.php?name="+name+"&score="+score,true);
+        xmlhttp.send();
     }
-    xmlhttp.open("GET","demo_get2.asp?fname=Henry&lname=Ford",true);
-    xmlhttp.send();
 }
 
 

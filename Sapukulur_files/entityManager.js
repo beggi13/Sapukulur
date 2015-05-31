@@ -165,6 +165,7 @@ haltPlayers: function() {
 },	
 
 restart: function(){
+
     this.clearEverything();
     main._isGameOver = false;
     main.init();
