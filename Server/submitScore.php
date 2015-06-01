@@ -33,6 +33,8 @@ EOD;
 
 $result = $db->query($getQuery) or die('Query failed');
 
+echo "<p id='hsText'>Top Scores:</p>";
+
 while ($row = $result->fetchArray()){
 	//echo json_encode($row);
 	echo "<p>{$row['name']} : {$row['score']}\n</p>";

@@ -29,11 +29,6 @@ body{
     top:50%;
     transform: translateY(-50%);*/
 }
-#txtHint {
-    font-size: 0.8em;
-    border: 1px solid white;
-    padding: 5px;
-}
 
 .info {
     padding: 10px;
@@ -56,6 +51,20 @@ body{
     width: 25%;
     position:fixed;
 }
+#topScores {
+    font-size: 0.8em;
+    border: 1px solid white;
+    padding: 5px;
+}
+#topScores p{
+    margin: 2%;
+}
+#hsText{
+    font-size: 1.5em;
+    color: yellow;
+    margin: 0;
+}
+
 .output {
     /*float: left;*/
 }
@@ -89,6 +98,11 @@ body{
 
 #inputName{
     font-size: 1em;
+}
+
+#inputName span{
+    color: grey;
+    font-size: 0.8em;
 }
 
 .gameOver span {

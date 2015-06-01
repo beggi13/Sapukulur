@@ -219,7 +219,7 @@ sendScore: function(name, score) {
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 resultString = xmlhttp.responseText;
-                document.getElementById("txtHint").innerHTML = resultString;
+                document.getElementById("topScores").innerHTML = resultString;
             }
         }
         xmlhttp.open("POST", "Server/submitScore.php?name="+name+"&score="+score, true);
