@@ -226,6 +226,33 @@ TopBubbles.prototype.update = function (du) {
                             }
                         }
                     }
+                    
+                    /////////////////////////////////////////
+                    var col = i + bestEmptyBub[0];
+                    var row = j + bestEmptyBub[1];
+
+                    var left  = this.columns[col-1] ? this.columns[col-1][row] : false;
+                    var right = this.columns[col+1] ? this.columns[col+1][row] : false;
+                    var up    = this.columns[col][row-1];
+                    var down  = this.columns[col][row+1];
+                    console.log(left + "  " + right + "  " + up + "  " + down);
+                    if(    (left  === undefined || left  < 0)
+                        && (right === undefined || right < 0)
+                        && (up    === undefined || up    < 0)
+                        && (down  === undefined || down  < 0)
+                    ){
+                        var leftUp   = this.columns[col-1] ? this.columns[col-1][row-1] : false;
+                        var rightUp  = this.columns[col+1] ? this.columns[col+1][row-1] : false;
+                        var leftDn   = this.columns[col-1] ? this.columns[col-1][row+1] : false;
+                        var rightDn  = this.columns[col+1] ? this.columns[col+1][row+1] : false;
+
+                        if (   (leftDn  === undefined || leftDn  < 0)
+                            && (rightDn === undefined || rightDn < 0)
+                        ){
+                            bestEmptyBub[1]--;
+                        }
+                    }
+                    /////////////////////////////////////////
 
                     this.absorbBubble(bub,i + bestEmptyBub[0],j + bestEmptyBub[1]);
                     var that = this;
