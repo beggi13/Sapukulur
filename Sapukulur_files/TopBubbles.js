@@ -235,14 +235,12 @@ TopBubbles.prototype.update = function (du) {
                     var right = this.columns[col+1] ? this.columns[col+1][row] : false;
                     var up    = this.columns[col][row-1];
                     var down  = this.columns[col][row+1];
-                    console.log(left + "  " + right + "  " + up + "  " + down);
+
                     if(    (left  === undefined || left  < 0)
                         && (right === undefined || right < 0)
                         && (up    === undefined || up    < 0)
                         && (down  === undefined || down  < 0)
                     ){
-                        var leftUp   = this.columns[col-1] ? this.columns[col-1][row-1] : false;
-                        var rightUp  = this.columns[col+1] ? this.columns[col+1][row-1] : false;
                         var leftDn   = this.columns[col-1] ? this.columns[col-1][row+1] : false;
                         var rightDn  = this.columns[col+1] ? this.columns[col+1][row+1] : false;
 
@@ -250,6 +248,9 @@ TopBubbles.prototype.update = function (du) {
                             && (rightDn === undefined || rightDn < 0)
                         ){
                             bestEmptyBub[1]--;
+                        }
+                        else{
+                            bestEmptyBub[1]++;
                         }
                     }
                     /////////////////////////////////////////
