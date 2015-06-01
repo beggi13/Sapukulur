@@ -37,10 +37,11 @@ function Bubble(descr) {
 Bubble.prototype = new Entity();
 
 // HACKED-IN AUDIO (no preloading)
+/*
 Bubble.prototype.fireSound = new Audio(
     "sounds/bulletFire.ogg");
 Bubble.prototype.zappedSound = new Audio(
-    "sounds/bulletZapped.ogg");
+    "sounds/bulletZapped.ogg");*/
     
 // Initial, inheritable, default values
 Bubble.prototype.rotation = 0;

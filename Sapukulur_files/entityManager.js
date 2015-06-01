@@ -89,6 +89,7 @@ deferredSetup : function () {
 
 init: function() {
     this.timeToNextRow = this.NEW_ROW_TIME;
+    util.sendScore("init", -1);
 },
 
 generateSmoke : function(descr) {
@@ -166,6 +167,13 @@ haltPlayers: function() {
 
 restart: function(){
 
+    var playerScore = this._players[0].score;
+    var playerName  = document.getElementById("inputHighScore").value;
+
+    if(playerName !== undefined && playerName !== ""){
+        util.sendScore(playerName, playerScore); 
+    }
+
     this.clearEverything();
     main._isGameOver = false;
     main.init();
@@ -176,6 +184,7 @@ restart: function(){
         cy : g_canvas.height - 30
     });
     this.generateTopBubbles();
+    this.init();
     document.getElementById('gameOver').style.display = "none";
 },
 
@@ -260,11 +269,15 @@ render: function(ctx) {
         }
         debugY += 10;
     }
+    // draw aim
+    util.drawAim(ctx, g_mouseX, g_mouseY);
 
     if(this.shakeTime) util.postShake(ctx);
 
-    // draw aim
-    util.drawAim(ctx, g_mouseX, g_mouseY);
+    // draw limit
+    ctx.globalAlpha = 0.5;
+    util.fillBox(ctx, 0, 10+(20*2*BUBBLE_RADIUS), g_canvas.width, 1, "red");
+    ctx.globalAlpha = 1;
 
     // For debugging, to see what entities are alive at some point in time
     if(keys['L'.charCodeAt(0)]) console.log(entityManager._categories); 

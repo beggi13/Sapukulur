@@ -167,14 +167,14 @@ Player.prototype.takePowerUpHit = function (color) {
         this.permult = 1;
         this.launchVel = 7;
         this.nextBubbleColor = COLORS.length; // next bubble = bomb
-        return "More Speed";
+        return "More Speed\nBubble Bomb";
     }
     if(color === 2){
         this.spriteMode = 3;
         this.permult = 2;
         this.launchVel = 5;
         entityManager.addTimeToNextRow(10);
-        return "2x Multiplier";
+        return "2x Multiplier\nMore Time";
     }
     if(color === 3){
         this.spriteMode = 6;
@@ -187,7 +187,7 @@ Player.prototype.takePowerUpHit = function (color) {
         this.permult = 4;
         this.launchVel = 5;
         entityManager.shakeAllFor(util.discreetRandRange(5,20));
-        return "4x Multiplier";
+        return "4x Multiplier\nEarthquake";
     }
 };
 

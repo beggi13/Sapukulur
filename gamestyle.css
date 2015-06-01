@@ -29,6 +29,11 @@ body{
     top:50%;
     transform: translateY(-50%);*/
 }
+#txtHint {
+    font-size: 0.8em;
+    border: 1px solid white;
+    padding: 5px;
+}
 
 .info {
     padding: 10px;
@@ -80,6 +85,10 @@ body{
     position: relative;
     left: 35%;
     opacity: 0%;
+}
+
+#inputName{
+    font-size: 1em;
 }
 
 .gameOver span {

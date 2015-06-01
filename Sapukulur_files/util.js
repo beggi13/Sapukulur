@@ -210,27 +210,22 @@ setHighScore: function(newScore){
 // ====================
 
 
-sendScore: function(name, score, elementID) {
-    var result = "";
-    if (name == "") {
-        document.getElementById(elementID).innerHTML = "";
-        return;
-    } else { 
-        if (window.XMLHttpRequest) {
-            // code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            // code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
+sendScore: function(name, score) {
+    
+    try{
+        var xmlhttp = new XMLHttpRequest();
+        var resultString = "";
+
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById(elementID).innerHTML = xmlhttp.responseText;
+                resultString = xmlhttp.responseText;
+                document.getElementById("txtHint").innerHTML = resultString;
             }
         }
-        xmlhttp.open("GET","cs.ucsb.edu/~beggi13/testing/phpTest.php?name="+name+"&score="+score,true);
+        xmlhttp.open("POST", "Server/submitScore.php?name="+name+"&score="+score, true);
         xmlhttp.send();
     }
+    catch(error){}
 }
 
 

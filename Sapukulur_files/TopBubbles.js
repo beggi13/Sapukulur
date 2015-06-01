@@ -226,6 +226,7 @@ TopBubbles.prototype.update = function (du) {
                             }
                         }
                     }
+
                     this.absorbBubble(bub,i + bestEmptyBub[0],j + bestEmptyBub[1]);
                     var that = this;
 
@@ -298,7 +299,7 @@ TopBubbles.prototype.render = function (ctx) {
         
     }
 
-    util.fillBox(ctx, 0, this.offset+(this.maxRows*2*BUBBLE_RADIUS), g_canvas.width, 1);
+    //util.fillBox(ctx, 0, this.offset+(this.maxRows*2*BUBBLE_RADIUS), g_canvas.width, 1);
     
 };
 
