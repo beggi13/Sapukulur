@@ -88,6 +88,7 @@ TopBubbles.prototype.generateDeathAnimation = function(i,j) {
             color  : COLORS[ -this.columns[i][j] ] || "purple"
         });
     }
+    if(-this.columns[i][j] === COLORS.length) entityManager.shakeAllFor(1);
 };
 
 TopBubbles.prototype.findBubblesToEliminate = function(color,i,j){
