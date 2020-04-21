@@ -16,7 +16,7 @@
 // CREATE INITIAL SHIPS
 // ====================
 
-function createInitialShips() {
+function createInitialPlayer() {
 
     entityManager.generatePlayer({
         cx : g_canvas.width/2,
@@ -119,13 +119,38 @@ function requestPreloads() {
 
     var requiredImages = {
         cat    : "Sapukulur_files/cats.gif",
-        ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
-        rock   : "https://notendur.hi.is/~pk/308G/images/rock.png"
+        bubbles : "Sapukulur_files/BubbleSpritesheet.png"
     };
     imagesPreload(requiredImages, g_images, preloadDone);
 }
 
-var g_sprites = [];
+var g_sprites = {};
+
+// function for cutting up a spritesheet
+function cutSpriteSheet(spriteSheet, numRows, numCols, celWidth, celHeight, rowStart, colStart, betweenCels, scale, skipRows, skipCols) {
+    
+    if(skipRows === undefined) skipRows = [];
+    if(skipCols === undefined) skipCols = [];
+
+    var result = [];
+    for (var row = 0; row < numRows; ++row){
+        var SpriteArray = [];
+
+        if(skipRows.indexOf(row) > -1) continue;
+
+        for (var col = 0; col < numCols; ++col){
+
+            if(skipCols.indexOf(col) > -1) continue;
+
+            var sprite = new Sprite(spriteSheet, colStart + col * betweenCels, rowStart + row * betweenCels, celWidth, celHeight);
+            sprite.scale = scale;
+            SpriteArray.push(sprite);
+        }
+        result.push(SpriteArray);
+    }
+    return result;
+}
+
 
 function preloadDone() {
 
@@ -134,23 +159,29 @@ function preloadDone() {
     var numCols = 12;
     var numRows = 8;
     var numCels = 96;
+    g_sprites.cat = [];
 
     var sprite;
     for (var row = 0; row < numRows; ++row) {
         for (var col = 0; col < numCols; ++col) {
             sprite = new Sprite(g_images.cat, col * celWidth, row * celHeight, celWidth, celHeight);
-            g_sprites.push(sprite);
+            sprite.scale = 1.3;
+            g_sprites.cat.push(sprite);
         }
     }
     
-    g_sprites.ship2 = new Sprite(g_images.ship2);
-    g_sprites.rock  = new Sprite(g_images.rock);
+    g_sprites.bubbles  = cutSpriteSheet(g_images.bubbles, 13,  5, 64, 64,       7, 668, 65, 0.3,  [], []);
+    g_sprites.bubbles2 = cutSpriteSheet(g_images.bubbles,  8, 17, 26, 26,       9,   6, 26, 0.8, [1], []);
+    g_sprites.powerUp  = cutSpriteSheet(g_images.bubbles,  5,  8, 26, 26,  10+26*8,   6, 26, 0.7,  [], []);
+    g_sprites.smoke    = cutSpriteSheet(g_images.bubbles,  2,  6, 34, 34, 9+26*13,   6, 34, 0.8,  [], []);
 
-    g_sprites.bullet = new Sprite(g_images.ship);
-    g_sprites.bullet.scale = 0.25;
+    // fix for smoke spritesheet
+    g_sprites.smoke = [ g_sprites.smoke[0].concat(g_sprites.smoke[1]) ];
+
+    g_sprites.bubble = new Sprite(g_images.bubbles, 5, 9+26*9, 26, 26);
 
     entityManager.init();
-    createInitialShips();
+    createInitialPlayer();
 
     main.init();
 }

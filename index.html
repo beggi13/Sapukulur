@@ -9,6 +9,32 @@
 		<title>Sápukúlur</title>
 	</head>
 	<body>
+        <div id="scoreOutput">
+            <p class="output" id="score"></p>
+            <p class="output" id="permultiplier"></p>
+            <p class="output" id="multiplier"></p>
+            <p class="output" id="timer"></p>
+            <p class="output" id="highscore"></p>
+
+            <div id="topScores"><p>Scores will be listed here...</p></div>
+        </div>
+
+		<div class="gameOver" id="gameOver">
+			<p>GAME OVER<p>
+			<p><span onclick="entityManager.restart()">Play again</span></p>
+			<p id="inputName">Enter your name: <input id="inputHighScore" type="text"><span>(max 10 characters)</span></p>
+		</div>
+        <div class="info">
+            <h1>Sápukúlur</h1>
+            <p>Instructions:</p>
+            <p>Press A to turn left</p>
+            <p>Press D to turn right</p>
+            <p>Press W to shoot straight up or use the mouse to shoot at angles</p>
+            <p>Press M to Mute</p>
+            <p>Press P to Pause</p>
+            <p>Collision of three or more bubbles of the same color will kill them and give you points</p>
+        </div>
+
 
         <div id="canvasContainer">
             <canvas id="myCanvas" width="450" height="700">
@@ -28,6 +54,9 @@
 	    <script src="Sapukulur_files/Sprite.js"></script>
 	    
 	    <script src="Sapukulur_files/Entity.js"></script>
+	    <script src="Sapukulur_files/Particle.js"></script>
+	    <script src="Sapukulur_files/Smoke.js"></script>
+	    <script src="Sapukulur_files/Message.js"></script>
 	    <script src="Sapukulur_files/PowerUp.js"></script>
 	    <script src="Sapukulur_files/Bubble.js"></script>
 	    <script src="Sapukulur_files/Player.js"></script>    

@@ -1,5 +1,5 @@
 // ======
-// BULLET
+// BUBBLE
 // ======
 
 "use strict";
@@ -26,18 +26,22 @@ function Bubble(descr) {
     this._bulletProperty = true;
     console.dir(this);
 */
+    // Default sprite, if not otherwise specified
+    this.sprite = this.sprite || g_sprites.bubbles2;
 
-    this.color = util.discreetRandRange(1, COLORS.length);
+    this.color = this.color || util.discreetRandRange(1, COLORS.length);
+    this.blowRadius = util.discreetRandRange(30,100);
 
 }
 
 Bubble.prototype = new Entity();
 
 // HACKED-IN AUDIO (no preloading)
+/*
 Bubble.prototype.fireSound = new Audio(
     "sounds/bulletFire.ogg");
 Bubble.prototype.zappedSound = new Audio(
-    "sounds/bulletZapped.ogg");
+    "sounds/bulletZapped.ogg");*/
     
 // Initial, inheritable, default values
 Bubble.prototype.rotation = 0;
@@ -45,56 +49,60 @@ Bubble.prototype.cx = 200;
 Bubble.prototype.cy = 200;
 Bubble.prototype.velX = 0;
 Bubble.prototype.velY = 0;
-
-// Convert times from milliseconds to "nominal" time units.
-//Bubble.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
+Bubble.prototype.isBubble = true;
+Bubble.prototype.launchVel = 5;
+Bubble.prototype.renderCount = 0;
+Bubble.prototype.stillFrames = 0;
+Bubble.prototype.blowRadius = 0;
 
 Bubble.prototype.update = function (du) {
 
     spatialManager.unregister(this);
 
-    //if(this.isColliding()) this._isDeadNow = true;
+    if(this._isDeadNow){
+        return entityManager.KILL_ME_NOW;
+    }
 
-    //if(this._isDeadNow){
-    //    console.log("isDead");
-    //    return entityManager.KILL_ME_NOW;
-    //}
-
-
-    //this.lifeSpan -= du;
-    //if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
+    // for animation
+    if(10 === this.stillFrames++) {
+        this.stillFrames = 0;
+        ++this.renderCount; 
+    }   
+    if (this.renderCount === 17) this.renderCount = 0;
 
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-    //this.rotation += 1 * du;
-    //this.rotation = util.wrapRange(this.rotation,
-    //                               0, consts.FULL_CIRCLE);
-
-    //this.wrapPosition();
-    //console.log(this.cy);
     if (this.cy < -this.getRadius()){
-
-        entityManager.generatePowerUp({
-            cx: this.cx,
-            cy: this.cy,
-            
-        });
-
-        //console.log("offscreen");
         return entityManager.KILL_ME_NOW;
+    }
+    if(this.cx - this.getRadius() < 0 || this.cx + this.getRadius() > g_canvas.width){
+        this.velX *= -1;
+    }
+    if(this.cy > g_canvas.height){
+        this.velY *= -1;
+    }
+
+
+    if( (this.velX !== 0 || this.velY !== 0) ){
+        entityManager.generateParticle({
+            cx     : this.cx,
+            cy     : this.cy,
+            velX   : -this.velX/2 + util.randRange(-3,3),
+            velY   : -this.velY/2 + util.randRange(-3,3),
+            color  : COLORS[ this.color ]
+        });
     }
     
     // Handle collisions
-    //
-    var hitEntity = this.findHitEntity();
+    /*var hitEntity = this.findHitEntity();
     if (hitEntity) {
         var canTakeHit = hitEntity.takeBubbleHit;
         if (canTakeHit){
             canTakeHit.call(hitEntity); 
             return entityManager.KILL_ME_NOW;
         }
-    }
+    }*/
 
     spatialManager.register(this);
 
@@ -102,31 +110,30 @@ Bubble.prototype.update = function (du) {
 };
 
 Bubble.prototype.getRadius = function () {
-    return 10;
+    return BUBBLE_RADIUS;
 };
 
 Bubble.prototype.takeBubbleHit = function () {
     this.kill();
-    
-    // Make a noise when I am zapped by another bullet
     //this.zappedSound.play();
 };
 
 Bubble.prototype.render = function (ctx) {
     var oldStyle = ctx.fillStyle;
-    ctx.fillStyle = COLORS[this.color];
+    ctx.fillStyle = COLORS[ this.color ];
 
-    //var fadeThresh = Bubble.prototype.lifeSpan / 3;
 
-/*    if (this.lifeSpan < fadeThresh) {
-        ctx.globalAlpha = this.lifeSpan / fadeThresh;
+    if(this.color === COLORS.length){
+        ctx.fillStyle = "purple";
+        ctx.globalAlpha = 0.3;
+        util.fillCircle(ctx, this.cx, this.cy, this.blowRadius);
+        ctx.globalAlpha = 1;
+      /*  ctx.strokeStyle = "purple"
+        ctx.stroke();  */
     }
 
-    g_sprites.bullet.drawWrappedCentredAt(
-        ctx, this.cx, this.cy, this.rotation
-    );*/
-    util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
+    //util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
+    this.sprite[this.color-1][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
 
-    ctx.globalAlpha = 1;
     ctx.fillStyle = oldStyle;
 };

@@ -18,7 +18,7 @@ function PowerUp(descr) {
     // Common inherited setup logic from Entity
     this.setup(descr);
 
-    // Make a noise when I am created (i.e. fired)
+    // Make a noise when I am created
     //this.fireSound.play();
     
 /*
@@ -27,7 +27,6 @@ function PowerUp(descr) {
     console.dir(this);
 */
 
-    this.color = util.discreetRandRange(0, COLORS.length);
 
 }
 
@@ -45,35 +44,50 @@ PowerUp.prototype.cx = 200;
 PowerUp.prototype.cy = 200;
 PowerUp.prototype.velX = 0;
 PowerUp.prototype.velY = 3;
+PowerUp.prototype.color= 0;
 
-// Convert times from milliseconds to "nominal" time units.
-//PowerUp.prototype.lifeSpan = 4000 / NOMINAL_UPDATE_INTERVAL;
+PowerUp.prototype.stillFrames = 0;
+PowerUp.prototype.renderCount = 0;
 
 PowerUp.prototype.update = function (du) {
 
     spatialManager.unregister(this);
 
-  /*  if(this.isColliding()) this._isDeadNow = true;
+    // for animation
+    if(10 === this.stillFrames++) {
+        this.stillFrames = 0;
+        ++this.renderCount; 
+    }   
+    if (this.renderCount === 8) this.renderCount = 0;
 
-    if(this._isDeadNow){
-        return entityManager.KILL_ME_NOW;
-    }*/
-
+    // update movement
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
+    // particles
+    entityManager.generateParticle({
+        cx     : this.cx,
+        cy     : this.cy,
+        velX   : 0.001,
+        velY   : -1,
+        color  : COLORS[this.color]
+    });
+
+
+    // below canvas == dead
     if (this.cy > this.getRadius() + g_canvas.height){
-        //console.log("offscreen");
         return entityManager.KILL_ME_NOW;
     }
     
     // Handle collisions
-    //
     var hitEntity = this.findHitEntity();
     if (hitEntity) {
         var canTakeHit = hitEntity.takePowerUpHit;
         if (canTakeHit){
-            canTakeHit.call(hitEntity); 
+            entityManager.generateMessage({
+                message: hitEntity.takePowerUpHit(this.color),
+                color: 3
+            });
             return entityManager.KILL_ME_NOW;
         }
     }
@@ -88,20 +102,15 @@ PowerUp.prototype.getRadius = function () {
 };
 
 PowerUp.prototype.render = function (ctx) {
+
     var oldStyle = ctx.fillStyle;
-    ctx.fillStyle = "white";//COLORS[this.color];
-
-    //var fadeThresh = PowerUp.prototype.lifeSpan / 3;
-
-/*    if (this.lifeSpan < fadeThresh) {
-        ctx.globalAlpha = this.lifeSpan / fadeThresh;
-    }
-
-    g_sprites.bullet.drawWrappedCentredAt(
-        ctx, this.cx, this.cy, this.rotation
-    );*/
-    util.fillCircle(ctx, this.cx, this.cy, this.getRadius());
-
+    ctx.fillStyle = COLORS[this.color];
+    
+    ctx.globalAlpha = 0.5;
+    util.fillCircle(ctx, this.cx, this.cy, this.getRadius() + 7);
     ctx.globalAlpha = 1;
+
+    g_sprites.powerUp[this.color][this.renderCount].drawCentredAt(ctx, this.cx, this.cy);
+
     ctx.fillStyle = oldStyle;
 };

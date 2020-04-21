@@ -7,6 +7,7 @@ html {
 body{
     min-height:100%;
     margin:0 auto;
+    min-width:100%;
 }
 
 #canvasContainer{
@@ -23,9 +24,96 @@ body{
     top:50%;
     margin-top:-350px;
     max-height:700px;
+    cursor: none;
     /*height: 99vh;
     top:50%;
     transform: translateY(-50%);*/
+}
+
+.info {
+    padding: 10px;
+    width: 200px;
+    color: rgb(255, 255, 255);
+    font-family: "Arial", cursive, sans-serif;
+    border: 1px solid white;
+    margin-left: 10px;
+    font-size: 80%;
+    position:absolute;
+    right:0;
+}
+
+#scoreOutput{
+    font-family: "Arial", cursive, sans-serif;
+    font-size: 1.5em;
+    color: #FF0066;
+    padding: 15px;
+    float:left;
+    width: 25%;
+    position:fixed;
+}
+#topScores {
+    font-size: 0.8em;
+    border: 1px solid white;
+    padding: 5px;
+}
+#topScores p{
+    margin: 2%;
+}
+#hsText{
+    font-size: 1.5em;
+    color: yellow;
+    margin: 0;
+}
+
+.output {
+    /*float: left;*/
+}
+
+.gameOver {
+    width:50%;
+    position: absolute;
+    top:30%;
+    left: 20%;
+    /*margin: 30px;*/
+    border: 1px solid white;
+    cursor: default;
+    display: none;
+    background-color: #FF6666;
+    background-image: url("giphy.gif");
+    background-repeat: no-repeat;
+    /*padding: 10px;*/
+    z-index: 10;
+}
+
+.gameOver p{
+    margin: 5%;
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 60px;
+    color: #FF0000;
+    position: relative;
+    left: 35%;
+    opacity: 0%;
+}
+
+#inputName{
+    font-size: 1em;
+}
+
+#inputName span{
+    color: grey;
+    font-size: 0.8em;
+}
+
+.gameOver span {
+    font-size: 60px;
+    cursor: pointer;
+    position: relative;
+    left:6%;
+}
+
+.gameOver span:hover {
+    color: #0099FF;
 }
 
 @media (max-height: 700px){
